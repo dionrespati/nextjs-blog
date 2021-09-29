@@ -8,7 +8,7 @@ const home = () => {
 			<Link href="/main/about"><a>About</a></Link>
 			<Link href="/posts"><a>Post</a></Link>	
 		</div>
-	)
-}
+	);
+};
 
 export default home;
