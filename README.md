@@ -1,1 +1,1 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+Belajar membuat aplikasi web menggunakan react JS dengan framework Next.js
