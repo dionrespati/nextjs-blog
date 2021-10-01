@@ -1,14 +1,13 @@
 import React from 'react';
-import Link from 'next/link';
+import Header from '../components/header';
+import Footer from '../components/footer';
 
 const home = () => {
 	return (
-		<div>
-			<h1>Home</h1>
-			<Link href="/main/about"><a>About</a></Link>
-			<Link href="/posts"><a>Post</a></Link>	
-			<Link href="/"><a>Tes</a></Link>	
-		</div>
+		<>
+			<Header />	
+			<Footer />
+		</>
 	);
 };
 
