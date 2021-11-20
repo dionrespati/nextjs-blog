@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const posts = () => {
   const [isValid, setValid] = useState(0);
+  const [post, setPost] = useState({});
 
   useEffect(() => {    
     fetch('https://jsonplaceholder.typicode.com/posts', {
