@@ -6,17 +6,10 @@ import { FaBars, FaTimes} from 'react-icons/fa'; */
 const Navbar = () => {
   return (
     <>
-      <div className="navbar">
-        <div className="navbar-container container">
-          <Link href="/" className="navbar-logo">
-            <a>
-              BecomeGreat
-            </a>  
-          </Link>
-        </div>
-        <div className="menu-ioon">
-
-        </div>
+      <div className="container mx-auto">
+        <span className="decoration-clone bg-gradient-to-b from-yellow-400 to-red-500 text-transparent ...">
+          Hello World
+        </span>
       </div>
     </>
   );

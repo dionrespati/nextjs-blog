@@ -20,6 +20,7 @@ const TextInput = (props) => {
   } = props;
 
   return (
+    
     <div className={cn('text-sm mb-2', { error: isError })}>
       <label
         htmlFor={name}

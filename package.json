@@ -10,10 +10,16 @@
   "dependencies": {
     "axios": "^0.21.4",
     "classnames": "^2.3.1",
-    "next": "^10.0.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-icons": "^4.3.1",
-    "tailwindcss": "^2.2.16"
+    "next": "^12.0.7",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "check-prop-types": "^1.1.2",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^2.2.19"
   }
 }
