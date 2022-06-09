@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cn from 'classnames';
 import {
   oneOfType, oneOf, string, bool, func,
@@ -17,14 +17,27 @@ const TextInput = (props) => {
     required,
     readOnly,
     className,
+    pattern,
+    minLength,
+    maxLength,
   } = props;
+
+  const ifMinLengthDefined = minLength && minLength > 0;
+  const ifMaxLengthDefined = minLength && minLength > 0;
+  const checkminLength = ifMinLengthDefined && value.length >= minLength ? true : false;
+  const checkMaxLength = ifMaxLengthDefined > 0 && value.length <= maxLength ? true : false;
+  const checkMinMaxLength = ifMinLengthDefined && ifMaxLengthDefined && checkminLength && checkMaxLength;
+
+  useEffect(() => {
+    console.log({ifMinLengthDefined, minLength, maxLength, checkMinMaxLength});
+  });
 
   return (
     
     <div className={cn('text-sm mb-2', { error: isError })}>
       <label
         htmlFor={name}
-        className="block mb-1"
+        className="block mb-1 font-semibold"
       >
         {label}
       </label>
@@ -37,18 +50,30 @@ const TextInput = (props) => {
         onBlur={onBlur}
         required={required}
         readOnly={readOnly}
+        placeholder={required ? "Wajib diisi " : ""}
         className={cn(
-          'p-1 border border-solid',
+          'p-1 border border-gray-400 rounded w-96',
           className,
           {
-            'border-black': !readOnly,
-            'bg-gray-200 border-gray-400 cursor-not-allowed focus:outline-none': readOnly,
+            'border-darkgrey': !readOnly,
+            'bg-gray-200 border-gray-500 cursor-not-allowed focus:outline-none': readOnly,
           },
         )}
       />
-      {message && <p>{message}</p>}
+      {!isError && (
+        <span className='inline-block ml-1'>
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        </svg>
+      </span>
+      )}
+      
+      {message && <p className='text-sm font-normal text-red-600'>* {message}</p>}
+      
+      <p className={checkMinMaxLength ? 'text-sm font-normal text-green-700' : 'text-sm font-normal text-red-600'}>* Minimal Karakter adalah {minLength} - {maxLength}</p>
     </div>
   );
+
 };
 
 TextInput.defaultProps = {
@@ -58,9 +83,11 @@ TextInput.defaultProps = {
   name: undefined,
   value: undefined,
   label: undefined,
-  isError: undefined,
+  isError: true,
   readOnly: false,
   className: undefined,
+  minLength: undefined,
+  maxLength: undefined,
   onChange: () => {},
   onBlur: () => {},
 };
@@ -79,6 +106,8 @@ TextInput.propTypes = {
   required: bool,
   readOnly: bool,
   className: string,
+  minLength: string,
+  maxLength: string,
 };
 
 export default TextInput;

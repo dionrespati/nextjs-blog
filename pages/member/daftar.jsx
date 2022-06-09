@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
+import Button from '../../components/form/Button';
 import TextInput from '../../components/form/Textfield';
 
+const initValue = {
+  firstname: "",
+  lastname: "",
+  username: "",
+  password: "",
+  confirmPassword: "",
+}
+
 const daftar = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(initValue);
 
   const handleForm = (event) => {
     const { value, name } = event.target;
@@ -13,11 +22,11 @@ const daftar = () => {
     setFormData(newValue);
   }
 
-  const {firstname, lastname, username, password} = formData;
+  const {firstname, lastname, username, password, confirmPassword} = formData;
 
   return (   
     <>
-      <div class="bg-white dark:bg-gray-800">
+      <div className="bg-white dark:bg-gray-800">
         <TextInput 
           label="First Name"
           type="text" 
@@ -45,6 +54,18 @@ const daftar = () => {
           name="password" 
           value={password} 
           onChange={handleForm}
+        />
+
+        <TextInput 
+          label="Konfirmasi Password"
+          type="password" 
+          name="confirmPassword" 
+          value={confirmPassword} 
+          onChange={handleForm}
+        />
+        <Button 
+          type="submit"
+          text="Register"
         />
       </div>
     </>
