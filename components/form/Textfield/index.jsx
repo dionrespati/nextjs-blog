@@ -4,6 +4,8 @@ import {
   oneOfType, oneOf, string, bool, func,
 } from 'prop-types';
 import MinMaxInputMessage from './message';
+import EmailMessage from './emailMessage';
+
 
 const TextInput = (props) => {
   const {
@@ -70,6 +72,10 @@ const TextInput = (props) => {
          value={value}
         />
       )}
+
+      {type === 'email' && (
+        <EmailMessage value={value} />
+      )}
       
     </div>
   );
@@ -93,7 +99,7 @@ TextInput.defaultProps = {
 
 TextInput.propTypes = {
   type: oneOfType([
-    oneOf(['text', 'date', 'password', 'email', 'number']),
+    oneOf(['text', 'date', 'password', 'email', 'number', 'url']),
   ]),
   message: string,
   name: string,

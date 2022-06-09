@@ -36,7 +36,7 @@ import TextField from '../components/form/Textfield';
 
 const todo = () => {
 
-  const initialValue = { username: "",  password: "", noKtp: "", namaLengkap: ""};
+  const initialValue = { username: "", email:"",  password: "", noKtp: "", namaLengkap: ""};
   const [formData, setFormData] = useState(initialValue);
 
   const handleForm = (e) => {
@@ -49,7 +49,7 @@ const todo = () => {
     //console.log({formData});
   }
 
-  const { username } = formData;
+  const { username, email } = formData;
 
   return (
     <>
@@ -65,6 +65,15 @@ const todo = () => {
             onChange={handleForm}
             value={username}
             setLength="8-12"
+          />
+
+          <TextField 
+            label="Email"
+            name="email"
+            type="email"
+            required={true}
+            onChange={handleForm}
+            value={email}
           />
         {/* );
       })} */}
