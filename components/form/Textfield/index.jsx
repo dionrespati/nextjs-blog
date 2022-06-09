@@ -3,6 +3,7 @@ import cn from 'classnames';
 import {
   oneOfType, oneOf, string, bool, func,
 } from 'prop-types';
+import MinMaxInputMessage from './message';
 
 const TextInput = (props) => {
   const {
@@ -18,18 +19,11 @@ const TextInput = (props) => {
     readOnly,
     className,
     pattern,
-    minLength,
-    maxLength,
+    setLength,
   } = props;
 
-  const ifMinLengthDefined = minLength && minLength > 0;
-  const ifMaxLengthDefined = minLength && minLength > 0;
-  const checkminLength = ifMinLengthDefined && value.length >= minLength ? true : false;
-  const checkMaxLength = ifMaxLengthDefined > 0 && value.length <= maxLength ? true : false;
-  const checkMinMaxLength = ifMinLengthDefined && ifMaxLengthDefined && checkminLength && checkMaxLength;
-
   useEffect(() => {
-    console.log({ifMinLengthDefined, minLength, maxLength, checkMinMaxLength});
+    console.log({setLength});
   });
 
   return (
@@ -70,7 +64,13 @@ const TextInput = (props) => {
       
       {message && <p className='text-sm font-normal text-red-600'>* {message}</p>}
       
-      <p className={checkMinMaxLength ? 'text-sm font-normal text-green-700' : 'text-sm font-normal text-red-600'}>* Minimal Karakter adalah {minLength} - {maxLength}</p>
+      {setLength && (
+        <MinMaxInputMessage 
+         setLength={setLength}
+         value={value}
+        />
+      )}
+      
     </div>
   );
 
@@ -86,8 +86,7 @@ TextInput.defaultProps = {
   isError: true,
   readOnly: false,
   className: undefined,
-  minLength: undefined,
-  maxLength: undefined,
+  setLength: undefined,
   onChange: () => {},
   onBlur: () => {},
 };
@@ -106,8 +105,7 @@ TextInput.propTypes = {
   required: bool,
   readOnly: bool,
   className: string,
-  minLength: string,
-  maxLength: string,
+  setLength: string,
 };
 
 export default TextInput;
