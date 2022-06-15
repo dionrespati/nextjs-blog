@@ -48,10 +48,10 @@ const handler = (req, res) => {
         path: '/login',
         submenu: [],
       },
-      /* {
+      {
         id: 5,    
         name: 'To Do',
-        path: '/todo2',
+        path: '/todo',
         submenu: [],
       },
       {
@@ -59,7 +59,7 @@ const handler = (req, res) => {
         name: 'Post',
         path: '/posts',
         submenu: [],
-      }, */
+      },
     ]
   });
 };

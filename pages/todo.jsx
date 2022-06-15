@@ -34,6 +34,17 @@ import TextField from '../components/form/Textfield';
   } 
 ]; */
 
+/* const isMinChar = password.length >= 8;
+const isMaxChar = password.length <= 24 && password.length > 0;
+const hasLowerCase = /[a-z]/.test(password);
+const hasUpperCase = /[A-Z]/.test(password);
+const hasSpecialChar = /[!@#\$%\^&\*+]/.test(password);
+const hasNumber = /[0-9]/.test(password);
+const isValidPassword = isMinChar
+  && isMaxChar && hasLowerCase && hasUpperCase && hasSpecialChar && hasNumber;
+const isValidConfirmPwd = password === confirmPassword;
+const isValidEmail = email && availableEmail && /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(email).toLowerCase()); */
+
 const todo = () => {
 
   const initialValue = { username: "", email:"",  password: "", noKtp: "", namaLengkap: ""};
@@ -59,12 +70,12 @@ const todo = () => {
           <TextField 
             label="Username"
             name="username"
-            pattern=""
+            pattern="[a-zA-Z]"
             message=""
             required={true}
             onChange={handleForm}
             value={username}
-            setLength="8-12"
+            setLength="10-15"
           />
 
           <TextField 

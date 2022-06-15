@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import '../styles/global.css';
 import { AppWrapper } from '../context/app';
-import Navbar from '../components/layout/navbar/navbar2';
+import Navbar from '../components/layout/navbar/navbar';
 import Footer from '../components/layout/footer';
 /* import './index.css'; */
 
@@ -12,7 +12,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <AppWrapper>
       <Layout>
-        {/* <Navbar /> */}
+        <Navbar />
         <Component {...pageProps} />
         {/* <Footer /> */}
       </Layout>

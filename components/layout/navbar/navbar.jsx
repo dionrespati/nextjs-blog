@@ -14,7 +14,7 @@ const Navbar = () => {
     {/* for main container */}
       <nav className='shadow-sm w-full z-10'>
         <div className='w-full'>
-          <div className='flex items-center h-20 w-full'>
+          <div className='flex items-center h-14 w-full mb-3'>
             {/* first block section */}
             <div className='flex items-center mx-5 justify-between w-full'>
               <div className='flex justify-center items-center flex-shrink-0'>

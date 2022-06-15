@@ -8,6 +8,7 @@ import EmailMessage from './emailMessage';
 
 
 const TextInput = (props) => {
+
   const {
     label,
     message,
@@ -64,7 +65,7 @@ const TextInput = (props) => {
       </span>
       )}
       
-      {message && <p className='text-sm font-normal text-red-600'>* {message}</p>}
+      {/* {message && <p className='text-sm font-normal text-red-600'>* {message}</p>} */}
       
       {setLength && (
         <MinMaxInputMessage 
@@ -77,6 +78,7 @@ const TextInput = (props) => {
         <EmailMessage value={value} />
       )}
       
+      <p className='text-sm font-normal text-red-600'>* Harus mengandung Huruf Besar, huruf kecil, karakter khusus</p>
     </div>
   );
 
