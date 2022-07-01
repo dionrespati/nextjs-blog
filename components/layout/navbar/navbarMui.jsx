@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,12 +13,20 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
+import { useAppContext } from '../../../context/app';
+import Switch from '@mui/material/Switch'
+import TextField from '@mui/material/TextField'
+import { Select, FormControl, InputLabel } from '@mui/material';
+
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const { lang, setLang } = useAppContext();
+
+  console.log({lang});
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +42,10 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const changeLang = (e) => {
+    setLang(e.target.value);
+  }
 
   return (
     <AppBar position="static">
@@ -153,6 +165,20 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
+            <FormControl>
+              <InputLabel id="demo-simple-select-label">Language</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={lang}
+                label="Language"
+                onChange={changeLang}
+              >
+                <MenuItem value="in">Indonesia</MenuItem>
+                <MenuItem value="en">English</MenuItem>
+                
+              </Select>
+            </FormControl>
           </Box>
         </Toolbar>
       </Container>

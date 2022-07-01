@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import '../styles/global.css';
 import { AppWrapper } from '../context/app';
-import Navbar from '../components/layout/navbar/navbar';
+import Navbar from '../components/layout/navbar/navbarMui';
 import Footer from '../components/layout/footer';
 /* import './index.css'; */
 

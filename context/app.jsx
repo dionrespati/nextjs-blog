@@ -8,6 +8,7 @@ export const AppWrapper = ({children}) => {
 
   const [login, setLogin] = useState(validLogin);
   const [menu, setMenu] = useState([]);
+  const [lang, setLang] = useState('in');
   /* useEffect(() => {
   }, []); */
 
@@ -32,7 +33,9 @@ export const AppWrapper = ({children}) => {
         login,
         setLogin,
         menu,
-        setMenu
+        setMenu,
+        lang, 
+        setLang
       }}
     >
       {children}

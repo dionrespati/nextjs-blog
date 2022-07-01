@@ -1,10 +1,15 @@
 import React from 'react';
+import Grid from '@mui/material/Grid';
+import { currency_format } from '../../custom/contoh';
+
+
+
 
 const productList = (props) => {
   
-  const {productId, productName, price, cart, setCart} = props;
+  const {productId, productName, price, img, cart, setCart} = props;
   
-  const addToCart = (id, nama, harga) => {
+  const addToCart = (id, nama, harga, img) => {
     const index = cart.findIndex(el => el.productId === id);
     if(index >= 0) {
       cart[index].qty += 1;
@@ -16,56 +21,19 @@ const productList = (props) => {
           productId: id,
           productName: nama,
           price: harga,
+          img: img,
           qty: 1
         }
       ]);
     }
-    /* let totalQty = 0;
-    let totalHarga = 0;
-    const jum = cart.length;
-    if(jum === 0) {
-      setCart([
-        ...cart,
-        {
-          productId: id,
-          productName: nama,
-          price: harga,
-          qty: 1
-        }
-      ]);
-    } else {
-      const isiArr = cart.forEach(el => {
-        if(el.productId === id) {
-          el.qty += 1;
-        } else {
-          setCart([
-            ...cart,
-            {
-              productId: id,
-              productName: nama,
-              price: harga,
-              qty: 1
-            }
-          ]);
-        }
-        //setCart([el]);
-        totalQty += el.qty;
-        totalHarga += el.qty * el.price;
-        console.log({el});
-      }); 
-    }*/
-    
-    
   };
   
   return (
-    <div className="flex">
-      <h2 className="flex-auto text-xl font-semibold">{productName}</h2>
-      <div className="text-xl font-semibold text-gray-500">
-       Rp.{price}
-      </div>
-      <input type="button" name="addToCart" id="addToCart" value="Tambah" onClick={() => addToCart(productId, productName, price)} />
-    </div>
+    <Grid item xs={6} md={4}>
+        <h2>{productName}</h2>
+        <img src={img} alt="" width="25%" height="25%" />
+        <p>Harga{currency_format(price)}</p>
+    </Grid>
   );
 };
 

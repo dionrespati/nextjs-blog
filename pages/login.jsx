@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import cn from 'classnames';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -22,7 +22,7 @@ import axios from 'axios';
 import EmailMui from '../components/form/Textfield/emailMui';
 import PasswordMui from '../components/form/Textfield/passwordMui';
 
-
+import { useAppContext } from '../context/app';
 
 /* import { IconButton, LockIcon, Visibility, VisibilityOff } from '@mui/icons-material'; */
 /* import { Input } from 'postcss'; */
@@ -43,11 +43,32 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const formLoginEn = {
+  header: "Welcome, Please Login..",
+  emailLable: "Email Address",
+  passwordLable: "Password",
+  forgotPwd: "Forgot Password?",
+  signHere: "Don't have an account? Sign Up",
+  infoMsgEmail: "Email format must valid"
+}
+
+const formLoginIn = {
+  header: "Selamat Datang, silahkan Login",
+  emailLable: "Alamat Email",
+  passwordLable: "Katakunci",
+  forgotPwd: "Lupa Password?",
+  signHere: "Registrasi disini",
+  infoMsgEmail: "Format Email harus benar"
+}
+
 const Login = () => {
   
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isValidPassword, setValidPassword] = useState(false);
   const [isValidEmail, setValidEmail] = useState(false);
+
+  const { lang } = useAppContext();
+  
   const [validResponse, setValidResponse] = useState({
     err: null,
     message: '' 
@@ -57,6 +78,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+
 
   const {email, password} = formData;
   const { err, message } = validResponse;
@@ -114,9 +136,9 @@ const Login = () => {
   if(err === null || err === undefined) {
     errMsg = "";
   } else if(err) {
-   errMsg = <Alert variant="outlined" size="small" severity="error">{message}</Alert>
+   errMsg = <Alert variant="filled" size="small" severity="error">{message}</Alert>
   } else {
-   errMsg = <Alert variant="outlined" size="small" severity="success">{message}</Alert>
+   errMsg = <Alert variant="filled" size="small" severity="success">{message}</Alert>
   } 
 
   return (
@@ -135,13 +157,13 @@ const Login = () => {
            <LockIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login User
+            {lang === "in" ? formLoginIn.header :  formLoginEn.header}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             
             <EmailMui 
               value={email}
-              label="Email Address"
+              label={lang === "in" ? formLoginIn.emailLable :  formLoginEn.emailLable}
               name="email"
               onChange={handleOnChange}
               setValidEmail={setValidEmail}
@@ -150,7 +172,7 @@ const Login = () => {
             
             <PasswordMui 
               value={password}
-              label="Password"
+              label={lang === "in" ? formLoginIn.passwordLable :  formLoginEn.passwordLable}
               name="password"
               onChange={handleOnChange}
               passwordVisible={passwordVisible}
@@ -179,12 +201,12 @@ const Login = () => {
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                {lang === "in" ? formLoginIn.forgotPwd :  formLoginEn.forgotPwd}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                {lang === "in" ? formLoginIn.signHere :  formLoginEn.signHere}
                 </Link>
               </Grid>
             </Grid>

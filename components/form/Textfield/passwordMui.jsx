@@ -7,7 +7,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import KeyIcon from '@mui/icons-material/Key';
 
 const PasswordMui = (props) => {
-  const {value, handleOnChange, label, name, passwordVisible, setPasswordVisible, setValidPassword, ...inputProp } = props;
+  const {
+    value, handleOnChange, label, name, passwordVisible, setPasswordVisible, setValidPassword, ...inputProp 
+  } = props;
 
   const isMinChar = value.length >= 10;
   const isMaxChar = value.length <= 15 && value.length > 0;

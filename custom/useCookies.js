@@ -9,7 +9,7 @@ const getSavedValue = (key, initialValue) => {
 }
 
 
-const useCoockies = (key, initialValue) => {
+const useCookies = (key, initialValue) => {
   const [value, setValue] = useState(() => {
     return getSavedValue(key, initialValue);
   });
@@ -21,4 +21,4 @@ const useCoockies = (key, initialValue) => {
   return [value, setValue];
 }
 
-export default useCoockies;
+export default useCookies;

@@ -3,17 +3,13 @@ import ProductList from '../../components/product/productList';
 import { useAppContext } from "../../context/app";
 
 const dataPrd = [
-  {productId: "01", productName: "Macbook Air M1", price: 14000000},
-  {productId: "02", productName: "Macbook Pro M1", price: 20000000},
-  /* {productId: "03", productName: "Lenovo ThinkPad X1", price: 16000000},
-  {productId: "04", productName: "HP Pavilion X23", price: 13500000},
-  {productId: "05", productName: "Asus Vivobook 13", price: 14500000},
-  {productId: "06", productName: "Lenovo Yoga", price: 12000000}, */
+  {productId: "01", productName: "Macbook Air M1", price: 14000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
+  {productId: "02", productName: "Macbook Pro M1", price: 20000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
+  {productId: "03", productName: "Lenovo ThinkPad X1", price: 16000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
+  {productId: "04", productName: "HP Pavilion X23", price: 13500000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
+  {productId: "05", productName: "Asus Vivobook 13", price: 14500000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
+  {productId: "06", productName: "Lenovo Yoga", price: 12000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
 ];
-
-const numberWithCommas = (x) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
 
 const index = () => {
@@ -26,6 +22,7 @@ const index = () => {
 
   useEffect(() => {
     //set total Item dan Harga
+    console.log("update disini");
     let totQty = 0;
     let totHarga = 0;
     cart.forEach(x => {
@@ -48,19 +45,20 @@ const index = () => {
     <div>
       <h2>Ini adalah halaman utama Produk Bekas</h2>
       {dataPrd.map((items) => {
-        const {productId, productName, price} = items;
+        const {productId, productName, price, img} = items;
          return (
           <ProductList 
             key={productId}
             productId={productId}
             productName={productName}
             price={price}
+            img={img}
             setCart={setCart}
             cart={cart}
           />
          );      
       })}
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -78,7 +76,7 @@ const index = () => {
                     <th>Harga</th>
                     <th>Sub Total</th>
                   </tr>
-                  {/* cart && cart.map((el) => {
+                  {cart && cart.map((el) => {
                     return (
                       <tr key={el.productId}>
                         <td align="center">{el.productId}</td>
@@ -88,7 +86,7 @@ const index = () => {
                         <td align="right">{numberWithCommas(el.price * el.qty)}</td>
                       </tr>
                     );
-                  }) */}
+                  })}
                   <tr>
                     <td colSpan="2">Total</td>
                     <td align="right">{numberWithCommas(totalItem)}</td>
@@ -100,10 +98,10 @@ const index = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div>
       {<pre>
-          {JSON.stringify(login, null, '\t')}
+          {/* {JSON.stringify(cart, null, '\t')} */}
         </pre>}          
       </div>
     </div>  

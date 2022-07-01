@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from "../context/app";
 import cn from 'classnames';
-import {
-  TextField, Box, Button
-} from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 
 const posts = () => {
