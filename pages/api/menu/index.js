@@ -2,8 +2,6 @@ const handler = (req, res) => {
   res.status(200);
   res.json({
     errorCode: '0', 
-    asem: [3,4,6],
-    angka: 25,
     data:[
       {
         id: 1,       
@@ -42,7 +40,7 @@ const handler = (req, res) => {
           },
         ]
       },
-      {
+      /* {
         id: 4,    
         name: 'Login/Register',
         path: '/login',
@@ -59,7 +57,7 @@ const handler = (req, res) => {
         name: 'Post',
         path: '/posts',
         submenu: [],
-      },
+      }, */
     ]
   });
 };

@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
+import {
+  string, 
+} from 'prop-types';
 
-const EmailMui = (props) => {
-
-  const { 
-    value, handleOnChange, label, name, setValidEmail, ...inputProp 
-  } = props;
+const EmailMui = ({ value, handleOnChange, label, name, setValidEmail, ...inputProp }) => {
 
   const isValidEmail = value && value.length > 0 && /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(value).toLowerCase());
 

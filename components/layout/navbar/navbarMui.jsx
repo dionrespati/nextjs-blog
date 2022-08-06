@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,21 +12,46 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+import Popover from '@mui/material/Popover';
+
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Divider from '@mui/material/Divider';
+
+/* import Card from '@mui/material';
+import CardContent from '@mui/material'; */
 
 import { useAppContext } from '../../../context/app';
-import Switch from '@mui/material/Switch'
+/* import Switch from '@mui/material/Switch'
 import TextField from '@mui/material/TextField'
-import { Select, FormControl, InputLabel } from '@mui/material';
+import { Select, FormControl, InputLabel, } from '@mui/material'; */
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const NavbarMui = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const { lang, setLang } = useAppContext();
+  const [anchorPopCart, setAnchorPopCart] = useState(null);
 
-  console.log({lang});
+  const { lang, setLang } = useAppContext();
+  const { login, setLogin} = useAppContext();
+  const { cart, setCart} = useAppContext();
+  const { data: isiCart } = cart;
+
+  //console.log({isiCart});
+
+  const handleOpenPopCart = (event) => {
+    setAnchorPopCart(event.currentTarget)
+  }
+
+  const handleClosePopCart = () => {
+    setAnchorPopCart(null)
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -47,10 +72,28 @@ const ResponsiveAppBar = () => {
     setLang(e.target.value);
   }
 
+  const totalItem = isiCart.length;
+  //console.log({totalItem});
+  const open = Boolean(anchorPopCart);
+
   return (
-    <AppBar position="static">
+    <AppBar>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* <FormControl variant="standard">
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={lang}
+                label="Language"
+                onChange={changeLang}
+                displayEmpty
+              >
+                <MenuItem value="in">IND</MenuItem>
+                <MenuItem value="en">ENG</MenuItem>
+                
+              </Select>
+          </FormControl>  */}
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -67,10 +110,11 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            BukanTipuTipu
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -138,6 +182,63 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+          
+          <Badge badgeContent={totalItem} color="error">
+            <Typography
+              aria-owns={open ? 'popCartOver' : undefined}
+              aria-haspopup="true"
+              onMouseEnter={handleOpenPopCart}
+              onMouseLeave={handleClosePopCart}
+            >
+              <ShoppingCartIcon></ShoppingCartIcon>
+            </Typography>
+            
+            <Popover
+              id="popCartOver"
+              sx={{
+                pointerEvents: 'none',
+              }}
+              open={open}
+              anchorEl={anchorPopCart}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              onClose={handleClosePopCart}
+              disableRestoreFocus
+            >
+              <List
+                sx={{
+                  width: '100%',
+                  maxWidth: 450,
+                  bgcolor: 'background.paper',
+                }}
+              >
+                {isiCart && isiCart.map((item) => {
+                  const {productId, productName, qty, img} = item;
+                  const isiJumlah = `Jumlah : ${qty}`;
+                  return (
+                    <>
+                      <ListItem key={productId}>
+                        <ListItemAvatar>
+                          <Avatar>
+                            
+                            
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={productName} secondary={isiJumlah} />
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                    </>
+                  );      
+                })}
+              </List>
+            </Popover>
+          </Badge>  
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -157,7 +258,7 @@ const ResponsiveAppBar = () => {
                 horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClick={handleCloseUserMenu}
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
@@ -165,24 +266,11 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Language</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={lang}
-                label="Language"
-                onChange={changeLang}
-              >
-                <MenuItem value="in">Indonesia</MenuItem>
-                <MenuItem value="en">English</MenuItem>
-                
-              </Select>
-            </FormControl>
+            
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default NavbarMui;

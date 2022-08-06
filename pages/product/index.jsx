@@ -1,110 +1,64 @@
 import React, {useState, useEffect} from 'react';
 import ProductList from '../../components/product/productList';
 import { useAppContext } from "../../context/app";
-
-const dataPrd = [
-  {productId: "01", productName: "Macbook Air M1", price: 14000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
-  {productId: "02", productName: "Macbook Pro M1", price: 20000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
-  {productId: "03", productName: "Lenovo ThinkPad X1", price: 16000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
-  {productId: "04", productName: "HP Pavilion X23", price: 13500000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
-  {productId: "05", productName: "Asus Vivobook 13", price: 14500000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
-  {productId: "06", productName: "Lenovo Yoga", price: 12000000, img: "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/05/24/756307194.jpg"},
-];
-
+import Box from '@mui/system/Box';
+import Grid from '@mui/material/Grid';
+import ProductSidebar from '../../components/product/productSidebar';
+import SearchBar from '../../components/product/searchBar';
+import axios from 'axios';
 
 const index = () => {
 
-  const {login, setLogin} = useAppContext();
-
-  const [cart, setCart] = useState([]);
-  const [totalItem, setIotalItem] = useState(0);
-  const [totalHarga, setTotalHarga] = useState(0);
+  const {login, cart} = useAppContext();
+  const [dataPrd, setDataPrd] = useState([]);
 
   useEffect(() => {
-    //set total Item dan Harga
-    console.log("update disini");
-    let totQty = 0;
-    let totHarga = 0;
-    cart.forEach(x => {
-      totQty += x.qty;
-      totHarga += x.qty * x.price;
-    });
-    setIotalItem(totQty);
-    setTotalHarga(totHarga);
-    console.log("dipanggil useEffect Tot Harga/Qty")
+    console.log(`useEffect fetch api produk`);
+    axios.get(`https://www.k-net.co.id/tes_api_prd`)
+      .then(res => {
+        const { response, arrayData } = res.data;
+        console.log({response, arrayData});
+        if(response === 'true') {
+          setDataPrd(arrayData);
+        }   
+      });
+  },[]);
 
-    /* window.localStorage.setItem("data_obj", JSON.stringify(cart)); */
-    /* const logStr = {
-      username: "SDSSD",
-      password: "dasdaf"
-    };
-    setLogin(logStr); */
-  },[cart]);
+  console.log(`Komponen productIndex invoked..`);
 
   return (
-    <div>
-      <h2>Ini adalah halaman utama Produk Bekas</h2>
-      {dataPrd.map((items) => {
-        const {productId, productName, price, img} = items;
-         return (
-          <ProductList 
-            key={productId}
-            productId={productId}
-            productName={productName}
-            price={price}
-            img={img}
-            setCart={setCart}
-            cart={cart}
-          />
-         );      
-      })}
-      {/* <div className="flex flex-col">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th colSpan="5">List Produk</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>Kode</th>
-                    <th>Nama</th>
-                    <th>Qty</th>
-                    <th>Harga</th>
-                    <th>Sub Total</th>
-                  </tr>
-                  {cart && cart.map((el) => {
-                    return (
-                      <tr key={el.productId}>
-                        <td align="center">{el.productId}</td>
-                        <td>{el.productName}</td>
-                        <td align="right"><button>-</button>{el.qty}<button>+</button></td>
-                        <td align="right">{numberWithCommas(el.price)}</td>
-                        <td align="right">{numberWithCommas(el.price * el.qty)}</td>
-                      </tr>
-                    );
-                  })}
-                  <tr>
-                    <td colSpan="2">Total</td>
-                    <td align="right">{numberWithCommas(totalItem)}</td>
-                    <td>&nbsp;</td>
-                    <td align="right">{numberWithCommas(totalHarga)}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      <div>
-      {<pre>
-          {/* {JSON.stringify(cart, null, '\t')} */}
-        </pre>}          
-      </div>
-    </div>  
+      <Box mt={10}
+        sx={{
+          p: 1,
+        }}
+      >
+        <Grid container direction="row" columns={12}>
+          {/* <Grid item md={2}>
+              <ProductSidebar />
+          </Grid> */}
+          <Grid item md={12} xs={12} sx={{p: 1}}>
+            {/* <Grid container spacing={1}>
+               <SearchBar />
+            </Grid> */}  
+            <Grid container spacing={1}>
+              {dataPrd && dataPrd.map((item) => {
+                const { prdcd } = item;
+                return (
+                  <ProductList 
+                    key={prdcd}
+                    item={item}
+                    login={login}
+                    /*cart={cart} 
+                    setCart={setCart}
+                    addToCart={addToCart}*/
+                  />
+                );
+              })}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+     
   );
 };
 

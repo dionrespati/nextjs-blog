@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { Transition } from '@headlessui/react';
 import NavbarList from './navbarList';
 import { useAppContext } from "../../../context/app";
-/* import { IoMdFingerPrint } from 'react-icons/';
-import { FaBars, FaTimes} from 'react-icons/fa'; */
+
 
 const Navbar = () => {
 

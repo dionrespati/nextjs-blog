@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from "../../../context/app";
-import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import Image from 'next/image';
-import mypic from "../../../public/img/left_arrow.png";
-import Link from 'next/link';
-import Button from '../../../components/form/Button';
 /* import {MENU} from 'constants'; */
 
 

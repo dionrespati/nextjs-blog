@@ -1,0 +1,185 @@
+
+import { useState } from 'react';
+import Link from '@mui/material/Link';
+
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SettingsIcon from '@mui/icons-material/Settings';
+import Badge from '@mui/material/Badge';
+import Popover from '@mui/material/Popover';
+import Drawer from '@mui/material/Drawer';
+
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Divider from '@mui/material/Divider';
+import { useAppContext } from '../../../context/app';
+import UserSettingList from './userSettingList';
+
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import { currency_format } from '../../../custom/contoh';
+
+const Navbar3 = () => {
+  const { cart, setCart} = useAppContext();
+  const { data: isiCart } = cart;
+
+  const [anchorPopCart, setAnchorPopCart] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(false);
+  
+  const handleOpenPopCart = (event) => {
+    setAnchorPopCart(event.currentTarget)
+  }
+
+  const handleClosePopCart = () => {
+    setAnchorPopCart(null)
+  }
+  const handleOpenNavMenu = (e) => {
+
+  }
+
+  const toggleDrawer = (event) => {
+    setAnchorElUser(!anchorElUser);
+  };
+
+  const totalItem = isiCart.length;
+  const open = Boolean(anchorPopCart);
+
+  let totalQty = 0;
+  let totalPrice = 0;
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position='fixed' color='primary'>
+        <Toolbar>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
+            sx={{display: { xs: 'flex', md: 'none' }}}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'block' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 800,
+              letterSpacing: '.01rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            BukanTipu
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+
+          </Box>
+          <Box sx={{ flexGrow: 0 }}>
+            <Badge badgeContent={totalItem} color="error" sx={{mr: 1}}>
+              <Typography
+                aria-owns={open ? 'popCartOver' : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handleOpenPopCart}
+                onMouseLeave={handleClosePopCart}
+              >
+                <Link href="/cart" color="inherit">
+                  <ShoppingCartIcon></ShoppingCartIcon>
+                </Link>
+              </Typography>
+              
+              <Popover
+                id="popCartOver"
+                sx={{
+                  pointerEvents: 'none',
+                }}
+                open={open}
+                anchorEl={anchorPopCart}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                onClose={handleClosePopCart}
+                disableRestoreFocus
+              >
+                <List
+                  sx={{
+                    width: '100%',
+                    maxWidth: 600,
+                    bgcolor: 'background.paper',
+                  }}
+                >
+                  {isiCart && isiCart.map((item) => {
+                    const {prdcd, prdnm, qty, price_w, img_url} = item;
+                    const isiJumlah = `Jumlah : ${qty}`;
+                    totalQty += qty;
+                    totalPrice += price_w;
+                    return (           
+                      <ListItem key={prdcd} divider>
+                        <ListItemAvatar>
+                          <Avatar 
+                            src={img_url} 
+                            variant="square"
+                          />
+                        </ListItemAvatar>
+                        <ListItemText primary={prdnm} secondary={isiJumlah} />
+                      </ListItem>
+                    );      
+                  })}
+                  <ListItem key="total" >
+                    <ListItemAvatar>
+                      <ShoppingCartCheckoutIcon></ShoppingCartCheckoutIcon>
+                    </ListItemAvatar>
+                    <ListItemText primary={`Total Qty : ${totalQty}`} secondary={`Total Harga : Rp ${currency_format(totalPrice)}`} />
+                  </ListItem>
+                </List>
+              </Popover>
+            </Badge>  
+            <Tooltip title="Open settings">
+              <IconButton onClick={toggleDrawer} sx={{ p: 0 }} color="inherit">
+               <SettingsIcon></SettingsIcon>
+              </IconButton>
+            </Tooltip>
+            <Drawer
+              anchor='right'
+              open={anchorElUser}
+              onClose={toggleDrawer}
+            >
+              <UserSettingList />
+            </Drawer>
+            
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  )
+}
+
+export default Navbar3;
