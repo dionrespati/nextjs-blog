@@ -1,3 +1,9 @@
+import React from 'react';
+import {
+   shape, string, number
+} from 'prop-types';
+import { useAppContext } from '../../context/app';
+
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
@@ -6,12 +12,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-import { useAppContext } from '../../context/app';
-
-import {
-  number
-} from 'prop-types';
 
 const AddReduceButton = ({item, qty}) => {
 
@@ -74,7 +74,33 @@ const AddReduceButton = ({item, qty}) => {
 }
 
 AddReduceButton.propTypes = {
-  qty: number
+  item: {
+    prdcd: "", 
+    prdnm: "", 
+    qty: 0, 
+    price_w: 0, 
+    price_e: 0, 
+    price_cw: 0,
+    price_ce: 0,
+    bv: 0, 
+    img_url: "",
+    weight: 0.0
+  }
+}
+
+AddReduceButton.propTypes = {
+  item: shape({
+    prdcd: string.isRequired, 
+    prdnm: string.isRequired, 
+    qty: number.isRequired, 
+    price_w: number.isRequired, 
+    price_e: number.isRequired, 
+    price_cw: number.isRequired,
+    price_ce: number.isRequired,
+    bv: number.isRequired, 
+    img_url: string.isRequired,
+    weight: number.isRequired
+  }).isRequired,
 };
 
 export default AddReduceButton;

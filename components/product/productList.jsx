@@ -10,23 +10,11 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
-/* import FavoriteIcon from '@mui/icons-material/Favorite';
-import InfoIcon from '@mui/icons-material/Info';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import SearchIcon from '@mui/icons-material/Search'; */
-
 import AddReduceButton from '../cart/addReduceButton';
 import CartButtonSet from '../cart/cartButtonSet';
 import { currency_format } from '../../custom/contoh';
 
 const ProductList = memo(({ item, login }) => {
-  /*const { login } = useAppContext(); 
-  const cart = {
-    data: []
-  };
-  const { data:isiCart = [] } = cart;
-  */
-  
   
   const { prdcd, prdnm, price_w, price_e, img_url, price_ce, price_cw } = item;
   const infoHargaA = login !== null ? `Rp ${currency_format(price_w)}` : `Rp ${currency_format(price_cw)}`;
@@ -40,32 +28,9 @@ const ProductList = memo(({ item, login }) => {
     variantSize = "subtitle2";
   }
 
-  /* const ifPrdInCart =  isiCart.filter(c => c.prdcd === prdcd); 
-  const isiQty = ifPrdInCart.length > 0 ? ifPrdInCart[0].qty : 0;
-  const itemCart = ifPrdInCart[0]; */
-
   const isiQty = 0;
-
-  /* useEffect(() => {
-    console.log(`Komponen productList invoked..`);
-  }); */
-
   console.log(`Komponen productList invoked..`);
 
-  /* const addToCart = (item) => {
-    
-    const { data } = cart;
-    //console.log({dataPrd});
-    const index = data.filter(el => el.prdcd === item.prdcd);
-    if(index.length === 1) return alert("Produk sudah ada dalam keranjang..");
-
-    const newItem = {...item, qty: 1};
-    const newArr = [ ...data, newItem ];
-    setCart({ ...cart, data: newArr });
-    alert(`Produk ${item.prdnm} sudah dimasukkan ke dalam keranjang`);
-    //window.localStorage.setItem("cart_content", JSON.stringify(cart));
-  };
-   */
   return (
     <Grid item xs={12} md={3} justifyContent="space-between">
       <Card variant="outlined" sx={{ maxWidth: 320, mb: 3 }}>

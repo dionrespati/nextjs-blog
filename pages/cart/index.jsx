@@ -44,7 +44,10 @@ const index = () => {
           )}
 
           {step === 1 && (
-            <DeliveryOption />
+            <DeliveryOption 
+              step={step}
+              setStep={setStep}
+            />
           )}
 
           {step === 2 && (

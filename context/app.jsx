@@ -6,9 +6,10 @@ let isiCart = {
   data: [],
   totalItem: 0,
   totalHarga: 0,
-  idmember: "IDSPAAA66834",
-  membername: "JHON DOE",
-  bnsperiod: ""
+  idmember: "",
+  membername: "",
+  bnsperiod: "",
+  pricecode: "12W4"
 };
 
 export const AppWrapper = ({children}) => {
@@ -36,26 +37,36 @@ export const AppWrapper = ({children}) => {
      .then(responsedata => {
       console.log('use effect navbar kepanggil');
        const {data, errorCode } = responsedata;
-       console.log({responsedata});
+       //console.log({responsedata});
        if(errorCode === "0") {
         setMenu(data);
        }
-     });
+    });
 
-     let getLocalStorage = isiCart;
-      if (typeof window !== 'undefined') {
-        console.log("Tidak ada localstorage")
-        //getLocalStorage = JSON.parse();
-        getLocalStorage = JSON.parse(localStorage.getItem('cart_content'));
-        console.log({getLocalStorage});
-        setCart(getLocalStorage);
-      }
-    
+    let getLocalStorage = isiCart;
+    let getLoginData =  validLogin;
+
+    if (typeof window !== 'undefined') {
+      console.log("Tidak ada localstorage")
+      //getLocalStorage = JSON.parse();
+      getLocalStorage = JSON.parse(localStorage.getItem('cart_content'));
+     //console.log({getLocalStorage});
+      setCart(getLocalStorage);
+
+      getLoginData = JSON.parse(localStorage.getItem('login'));
+      console.log({getLoginData});
+      setLogin(getLoginData);
+    }
   },[]);
 
   useEffect(() => {
     window.localStorage.setItem("cart_content", JSON.stringify(cart)); 
   }, [cart])
+
+  useEffect(() => {
+    window.localStorage.setItem("login", JSON.stringify(login));
+    console.log({login})
+  }, [login]);
   
 
   return (
