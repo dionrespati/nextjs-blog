@@ -55,7 +55,7 @@ const CartButtonSet = ({ item }) => {
 };
 
 CartButtonSet.propTypes = {
-  item: {
+  item: [{
     prdcd: "", 
     prdnm: "", 
     qty: 0, 
@@ -66,14 +66,13 @@ CartButtonSet.propTypes = {
     bv: 0, 
     img_url: "",
     weight: 0.0
-  }
-}  
+  }]
+}; 
 
 CartButtonSet.propTypes = {
   item: shape({
     prdcd: string.isRequired, 
-    prdnm: string.isRequired, 
-    qty: number.isRequired, 
+    prdnm: string.isRequired,  
     price_w: number.isRequired, 
     price_e: number.isRequired, 
     price_cw: number.isRequired,

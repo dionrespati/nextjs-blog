@@ -13,7 +13,6 @@ const index = () => {
   const [dataPrd, setDataPrd] = useState([]);
 
   useEffect(() => {
-    console.log(`useEffect fetch api produk`);
     axios.get(`https://www.k-net.co.id/tes_api_prd`)
       .then(res => {
         const { response, arrayData } = res.data;
@@ -23,8 +22,6 @@ const index = () => {
         }   
       });
   },[]);
-
-  console.log(`Komponen productIndex invoked..`);
 
   return (
       <Box mt={10}

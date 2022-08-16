@@ -18,50 +18,46 @@ import TitleForm from '../layout/titleForm';
 import { useAppContext } from '../../context/app';
 import Axios from "axios";
 import { baseUrlApi, dateFormatName } from '../../custom/contoh';
+import getListBonusPeriod from '../../pages/api/bonusperiod';
 
 const MemberBV = ({nextStep}) => {
 
-  const { cart, setCart } = useAppContext();
+  const { cart, setCart, login } = useAppContext();
+  const { idmember, membername, bnsperiod, } = cart;
   
   const [listBonusPeriod, setListBonusPeriod] = useState([]);
 
   const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
 
   useEffect(() => {
-      Axios.get(`${baseUrlApi}/api/v2/listShowBnsPeriod`)
-      .then(res => {
-        const {data, status} = res;
-        if(status === 200) {
-          const {response, arrayData} = data;
-          const { bnsperiod_prev, bnsperiod_now, date_only_now, endofdatebnsperiod} = arrayData[0];
+      console.log(`isi useEffect listbns ${bnsperiod}`);
+      let arrBns = [];
+      const getBns = async () => {
+        const { errCode, data, message} = await getListBonusPeriod();
+        console.log({ errCode, data, message});
+        if(errCode === "000") {
+          const { bnsperiod_prev, bnsperiod_now, date_only_now, endofdatebnsperiod} = data[0];
           let endOfDate = parseInt(endofdatebnsperiod);
-          let arrBns = [];
+          
           if(date_only_now > endOfDate) {
-            console.log({bnsperiod_now})
+            //console.log({bnsperiod_now})
             arrBns[0] = {value : bnsperiod_now, text : dateFormatName(bnsperiod_now)};
           } else {
-            console.log({bnsperiod_prev, bnsperiod_now})
+            //console.log({bnsperiod_prev, bnsperiod_now})
             arrBns[0] = {value : bnsperiod_prev, text : dateFormatName(bnsperiod_prev)};
             arrBns[1] = {value : bnsperiod_now, text : dateFormatName(bnsperiod_now)};
-          }         
+          }
           setListBonusPeriod(arrBns);
-        }
-      });
-    
+        }  
+      }  
+      
+      getBns();
       /* const newCart = {
         ...cart,
-        bnsperiod: "2022-07-01"
+        bnsperiod: arrBns
       }
-      setCart(newCart);
-
-      let arrBns = [];
-      arrBns[0] = {value : "2022-08-01", text : "Agustus 2022"};
-      arrBns[1] = {value : "2022-07-01", text : "Juli 2022"};
-      setListBonusPeriod(arrBns); */
-      
+      setCart(newCart); */
   },[]);
-
-  const { idmember, membername, bnsperiod, } = cart;
 
   const handleOnChange = (e) => {
     const nilai = e.target.value.toUpperCase();
@@ -120,7 +116,7 @@ const MemberBV = ({nextStep}) => {
             fullWidth
             required
             onChange={handleOnChange}
-            value={idmember}
+            value={idmember === "" && login !== null ? login.userlogin : idmember}
             helperText=""
           />
         </ListItem>
@@ -134,7 +130,7 @@ const MemberBV = ({nextStep}) => {
             }
             fullWidth
             required
-            value={membername}
+            value={membername === "" && login !== null ? login.loginname : membername}
           />  
         </ListItem>
         <ListItem key="fieldMember3">

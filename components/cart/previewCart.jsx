@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  number, shape, string,
+  number, shape, string, arrayOf
 } from 'prop-types';
 
 import List from '@mui/material/List';
@@ -74,19 +74,20 @@ PreviewCart.defaultProps = {
 };
 
 PreviewCart.propTypes = {
-  isiCart: shape({
-    prdcd: string.isRequired, 
-    prdnm: string.isRequired, 
-    qty: number.isRequired, 
-    price_w: number.isRequired, 
-    price_e: number.isRequired, 
-    price_cw: number.isRequired,
-    price_ce: number.isRequired,
-    bv: number.isRequired, 
-    img_url: string.isRequired,
-    weight: number.isRequired
-  }).isRequired,
-
+  isiCart: arrayOf(
+    shape({
+      prdcd: string.isRequired, 
+      prdnm: string.isRequired, 
+      qty: number.isRequired, 
+      price_w: number.isRequired, 
+      price_e: number.isRequired, 
+      price_cw: number.isRequired,
+      price_ce: number.isRequired,
+      bv: number.isRequired, 
+      img_url: string.isRequired,
+      weight: number.isRequired
+    }).isRequired,
+  ),
   pricecode: string, 
   
   login: shape({

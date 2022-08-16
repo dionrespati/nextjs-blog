@@ -34,4 +34,41 @@ const dateFormatName = (param) => {
    return blnNama + " " + thn;
 }
 
-export {double, triple, currency_format, baseUrlApi, setJsonResponse, dateFormatName};
+const updateRekapTrans = (cart, login, pricecode) => {
+  let totbv = 0;
+  let totweight = 0;
+  let totharga = 0;
+  let totitem = 0;
+  for(let i = 0; i < cart.length; i++) {
+    totbv += cart[i].qty * cart[i].bv;
+
+    if(login !== null && pricecode == "12W4") {
+      totharga += cart[i].qty * cart[i].price_w;
+    }
+
+    if(login !== null && pricecode == "12E4") {
+      totharga += cart[i].qty * cart[i].price_e;
+    }
+
+    if(login === null && pricecode == "12W4") {
+      totharga += cart[i].qty * cart[i].price_cw;
+    }
+
+    if(login === null && pricecode == "12E4") {
+      totharga += cart[i].qty * cart[i].price_ce;
+    }
+    totweight += cart[i].qty * cart[i].weight;
+    totitem += cart[i].qty;
+  }
+
+  const newArrCart = {
+    totalItem: totitem,
+    totalWeight: parseFloat(totweight.toFixed(2)),
+    totalHarga: totharga,
+    totalBv: totbv
+  };
+
+  return newArrCart;
+}
+
+export {double, triple, currency_format, baseUrlApi, setJsonResponse, dateFormatName, updateRekapTrans};

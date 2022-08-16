@@ -29,18 +29,6 @@ const RekapTransaksi = ({totalHarga,  totalBV}) => {
   )
 }
 
-/* Step1.propTypes = {
-  onSubmitForm: func.isRequired,
-  pendaftaran: shape({
-    email: string,
-    password: string,
-    confirmPassword: string,
-    availableEmail: bool,
-  }).isRequired,
-  setPendaftaran: func.isRequired,
-  getDataFormStep1: func.isRequired,
-}; */
-
 RekapTransaksi.defaultProps = {
   totalHarga: 0,
   totalBV: 0

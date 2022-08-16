@@ -14,9 +14,11 @@ import { useAppContext } from '../../context/app';
 const ListArea = () => {
 
   const {cart, setCart} = useAppContext();
-  const { areaStk } = cart;
+  const { areaStk, namaStk, pilStk, listStockist } = cart;
   const [listArea, setListArea] = useState([]);
-  const [listStockist, setListStockist] = useState([]);
+  /* const [listStockist, setListStockist] = useState([]); */
+
+  console.log({listStockist});
 
   const setArea = async(nilai) => {
     if(nilai === null || nilai === "" || nilai === undefined) {
@@ -47,7 +49,7 @@ const ListArea = () => {
       const namaStk = datax[i].warehouse;
       const pricecodeStk = datax[i].pricecode;
       //const inputan = kodeStk +"|"+ namaStk + "|" + pricecodeStk;
-      const idValue = kodeStk;
+      const idValue = kodeStk + "|" + pricecodeStk;
       const textValue = kodeStk +" - "+ namaStk;
       const newArrListStk = {
         label: textValue,
@@ -57,7 +59,15 @@ const ListArea = () => {
       isiStokis.push(newArrListStk);
     }
 
-    setListStockist(isiStokis);
+    /* setListStockist(isiStokis); */
+    setCart(
+      {
+        ...cart,
+        listStockist: isiStokis
+      }
+    );
+    console.log({cart});
+    
       
   }
 
@@ -83,6 +93,20 @@ const ListArea = () => {
     }
   }
 
+  const setStockist = (nilai) => {
+    if(nilai === null || nilai === "" || nilai === undefined) {
+      return;
+    }
+    
+    const {id, label} = nilai;
+    const arrStk = id.split("|");
+
+    const newAreaStk = {
+      ...cart, idstk: arrStk[0], pricecode: arrStk[1], pilStk:id, namaStk: label
+    };
+    setCart(newAreaStk);
+  }
+
   return (
     <Box sx={{p:1}}>
       <Grid item container xs={12} md={12} direction="row" sx={{padding: 1}}>
@@ -106,6 +130,7 @@ const ListArea = () => {
           <Autocomplete
             name="stockist"
             options={listStockist}
+            defaultValue={pilStk}
             getOptionLabel={option => option.label}
             renderInput={(params) => (
               <TextField 
@@ -114,7 +139,7 @@ const ListArea = () => {
               /* onChange={(e) => searchArea(e)} */
               />
             )}
-            /* onChange={(event, value) => setArea(value)} */
+            onChange={(event, value) => setStockist(value)}
             fullWidth
           />
         </Grid>

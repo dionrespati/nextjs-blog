@@ -19,7 +19,7 @@ import AddReduceButton from './addReduceButton';
 import MemberBV from './memberBV';
 import RekapTransaksi from './rekapTransaksi';
 
-const ListCartListItem = ({step, setStep}) => {
+const ListCartListItem = ({setStep}) => {
 
   const { cart, login} = useAppContext();
 
@@ -154,13 +154,8 @@ const ListCartListItem = ({step, setStep}) => {
   )
 }
 
-ListCartListItem.defaultProps = {
-  step: 0,
-};
-
 ListCartListItem.propTypes = {
-  step: number.isRequired, 
-  setStep: func.isRequired,
+  setStep: func,
 };
 
 export default ListCartListItem;

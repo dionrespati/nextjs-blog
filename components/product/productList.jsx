@@ -29,7 +29,6 @@ const ProductList = memo(({ item, login }) => {
   }
 
   const isiQty = 0;
-  console.log(`Komponen productList invoked..`);
 
   return (
     <Grid item xs={12} md={3} justifyContent="space-between">

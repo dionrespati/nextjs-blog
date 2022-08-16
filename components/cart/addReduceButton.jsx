@@ -3,6 +3,8 @@ import {
    shape, string, number
 } from 'prop-types';
 import { useAppContext } from '../../context/app';
+import { updateRekapTrans } from '../../custom/contoh';
+
 
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
@@ -15,8 +17,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const AddReduceButton = ({item, qty}) => {
 
-  const { cart, setCart} = useAppContext();
-  const { data:isiCart } = cart;
+  const { cart, setCart, login } = useAppContext();
+  const { data:isiCart, pricecode } = cart;
 
   const updateQty = (e, item) => {
     const { value } = e.target;
@@ -35,7 +37,15 @@ const AddReduceButton = ({item, qty}) => {
         }
         i++;
       });
-      setCart({ ...cart, data: isiDataCart });
+
+      const newArr = updateRekapTrans(isiDataCart, login, pricecode);
+      setCart({ ...cart, 
+        data: isiDataCart,
+        totalItem: newArr.totalItem, 
+        totalHarga: newArr.totalHarga,
+        totalBv: newArr.totalBv,
+        totalWeight: newArr.totalWeight,
+      });
     }
   }
 
@@ -44,7 +54,14 @@ const AddReduceButton = ({item, qty}) => {
     //alert(`Produk ${prdnm} akan dihapus..`);
     const newCart = isiCart.filter(el => el.prdcd !== item.prdcd);
     /* console.log({newCart}) */
-    setCart({ ...cart, data: newCart });
+    const newArr = updateRekapTrans(newCart, login, pricecode);
+      setCart({ ...cart, 
+        data: newCart,
+        totalItem: newArr.totalItem, 
+        totalHarga: newArr.totalHarga,
+        totalBv: newArr.totalBv,
+        totalWeight: newArr.totalWeight,
+      });
     alert(`Produk ${prdnm} sudah hapus..`);
   }
 

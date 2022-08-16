@@ -33,7 +33,7 @@ import { loginAuth } from '../../../pages/api/member/login';
 import { useAppContext } from '../../../context/app';
 
 const InlineLogin = ({statusOpen, setShowLogin}) => {
-  const { login, setLogin } = useAppContext();
+  const { login, setLogin, cart, setCart } = useAppContext();
 
   const [dataLogin, setDataLogin] = useState({idmember: "", password: ""});
   const [validLogin, setValidLogin] = useState(0);
@@ -70,6 +70,7 @@ const InlineLogin = ({statusOpen, setShowLogin}) => {
         loginname: data[0].fullnm,
       }
       setLogin(newArr);
+      setCart({...cart, idmember:data[0].dfno, membername: data[0].fullnm});
       setShowLogin(false);
       return;
     }
