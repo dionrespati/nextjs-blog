@@ -14,7 +14,8 @@ let isiCart = {
   membername: validLogin !== null ? validLogin.loginname : "",
   bnsperiod: "",
   pricecode: "12W4",
-  sentTo: "1"
+  sentTo: "1",
+  listStockist: []
 };
 
 export const AppWrapper = ({children}) => {

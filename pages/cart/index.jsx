@@ -38,7 +38,6 @@ const index = () => {
         <Grid container direction="row" columns={12} spacing={1} sx={{marginTop: 4}} justifyContent="space-evenly">   
           {step === 0 && (
             <ListCart 
-              step={step}
               setStep={setStep}
             />
           )}

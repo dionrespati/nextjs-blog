@@ -14,7 +14,7 @@ import { useAppContext } from '../../context/app';
 const ListArea = () => {
 
   const {cart, setCart} = useAppContext();
-  const { areaStk, namaStk, pilStk, listStockist } = cart;
+  const { areaStk, namaStk, pilStk, listStockist, idstk,  } = cart;
   const [listArea, setListArea] = useState([]);
   /* const [listStockist, setListStockist] = useState([]); */
 
@@ -24,11 +24,6 @@ const ListArea = () => {
     if(nilai === null || nilai === "" || nilai === undefined) {
       return;
     } 
-    
-    const newAreaStk = {
-      ...cart, areaStk: nilai,
-    };
-    setCart(newAreaStk);
       
     const { errCode, data, message } = await getDistrictLatLong(nilai);
     if(errCode !== "000") {
@@ -60,12 +55,16 @@ const ListArea = () => {
     }
 
     /* setListStockist(isiStokis); */
-    setCart(
-      {
+    const {label, id} = isiStokis[0];
+    const stkcode = id.split("|");
+    setCart({
         ...cart,
-        listStockist: isiStokis
-      }
-    );
+        areaStk: nilai,
+        listStockist: isiStokis,
+        idstk: stkcode[0],
+        namaStk: label,
+        pilStk: id
+      });
     console.log({cart});
     
       
@@ -107,6 +106,9 @@ const ListArea = () => {
     setCart(newAreaStk);
   }
 
+  const selectedStk = listStockist.filter(x => x.id === pilStk);
+  console.log({selectedStk})
+
   return (
     <Box sx={{p:1}}>
       <Grid item container xs={12} md={12} direction="row" sx={{padding: 1}}>
@@ -130,8 +132,8 @@ const ListArea = () => {
           <Autocomplete
             name="stockist"
             options={listStockist}
-            defaultValue={pilStk}
             getOptionLabel={option => option.label}
+            defaultValue={selectedStk[0]}
             renderInput={(params) => (
               <TextField 
               {...params} 
@@ -139,7 +141,9 @@ const ListArea = () => {
               /* onChange={(e) => searchArea(e)} */
               />
             )}
+            loading={true}
             onChange={(event, value) => setStockist(value)}
+            autoHighlight
             fullWidth
           />
         </Grid>
