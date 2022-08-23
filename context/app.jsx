@@ -15,7 +15,12 @@ let isiCart = {
   bnsperiod: "",
   pricecode: "12W4",
   sentTo: "1",
-  listStockist: []
+  listStockist: [],
+  listAddrMemb: [],
+  listWH: [],
+  listStkReff: [],
+  listCargo: [],
+  listPayment: [],
 };
 
 export const AppWrapper = ({children}) => {

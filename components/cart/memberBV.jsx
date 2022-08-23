@@ -30,7 +30,7 @@ const MemberBV = ({nextStep}) => {
   const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
 
   useEffect(() => {
-      console.log(`isi useEffect listbns ${bnsperiod}`);
+      /* console.log(`isi useEffect listbns ${bnsperiod}`); */
       let arrBns = [];
       const getBns = async () => {
         const { errCode, data, message} = await getListBonusPeriod();

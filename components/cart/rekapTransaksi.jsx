@@ -11,18 +11,43 @@ import {
   number,
 } from 'prop-types';
 
-const RekapTransaksi = ({totalHarga,  totalBV}) => {
+const RekapTransaksi = ({totalHarga, totalBv, totalItem, totalWeight, header}) => {
+  
+  const subheadInfo = {
+    variant: "subtitle1",
+    sx: {
+      width: "400px"
+    }
+  };
+
+  const subheadValue = {
+    variant: "subtitle1",
+    sx: {
+      width: "200px"
+    }
+  };
+
   return (
     <Paper variant="outlined" sx={{width: '100%', mb: 2}}>
-      <TitleForm title="Rekap Transaksi" />
+      {header === true && (
+        <TitleForm title="Rekap Transaksi" />
+      )}
       <List component="nav">
         <ListItem key="totHarga" divider>
-          <Typography variant="subtitle1" sx={{width: "400px"}}>Total Harga</Typography>
-          <Typography variant="subtitle1" sx={{width: "200px"}} align="right">{currency_format(totalHarga)}</Typography>
+          <Typography {...subheadInfo}>Total Harga</Typography>
+          <Typography {...subheadValue} align="right">Rp.{currency_format(totalHarga)}</Typography>
         </ListItem>
-        <ListItem key="totBV">
-          <Typography variant="subtitle1" sx={{width: "400px"}}>Total BV</Typography>
-          <Typography variant="subtitle1" sx={{width: "200px"}} align="right">{currency_format(totalBV)}</Typography>
+        <ListItem key="totBV" divider>
+          <Typography {...subheadInfo}>Total BV</Typography>
+          <Typography {...subheadValue} align="right">{currency_format(totalBv)}</Typography>
+        </ListItem>
+        <ListItem key="totItem" divider>
+          <Typography {...subheadInfo}>Total Item</Typography>
+          <Typography {...subheadValue} align="right">{currency_format(totalItem)}</Typography>
+        </ListItem>
+        <ListItem key="totWeight">
+          <Typography {...subheadInfo}>Total Weight (Kg)</Typography>
+          <Typography {...subheadValue} align="right">{totalWeight}</Typography>
         </ListItem>
       </List>    
     </Paper>
@@ -31,12 +56,16 @@ const RekapTransaksi = ({totalHarga,  totalBV}) => {
 
 RekapTransaksi.defaultProps = {
   totalHarga: 0,
-  totalBV: 0
+  totalBV: 0,
+  totalItem: 0,
+  totalWeight: 0
 };
 
 RekapTransaksi.propTypes = {
   totalHarga: number,
-  totalBV: number
+  totalBV: number,
+  totalItem: number,
+  totalWeight: number
 };
 
 export default RekapTransaksi;

@@ -23,7 +23,7 @@ const ListCartListItem = ({setStep}) => {
 
   const { cart, login} = useAppContext();
 
-  const  {data:isiCart, pricecode } = cart;
+  const  {data:isiCart, pricecode, totalBv, totalHarga, totalItem, totalWeight } = cart;
   const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
 
   let totalQty = 0;
@@ -144,7 +144,10 @@ const ListCartListItem = ({setStep}) => {
       <Grid item md={5} xs={12} sx={{p: 1}}>
         <RekapTransaksi 
           totalHarga={totalSubProduk}
-          totalBV={totalBV}
+          totalBv={totalBv}
+          totalItem={totalItem}
+          totalWeight={totalWeight}
+          header={true}
         /> 
         <MemberBV 
           nextStep={nextStep}

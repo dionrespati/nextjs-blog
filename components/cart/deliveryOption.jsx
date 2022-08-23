@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   func
 } from 'prop-types';
@@ -19,12 +19,15 @@ import TitleForm from '../layout/titleForm';
 import { currency_format } from '../../custom/contoh';
 import Button from '@mui/material/Button';
 import RekapTransaksi from './rekapTransaksi';
+import getListAddress from '../../pages/api/member/listAddress';
+import ListAlamat from './listAlamat';
 
 
 const DeliveryOption = ({setStep}) => {
   const { cart, login, setCart } = useAppContext();
-  const  {data:isiCart, pricecode, sentTo:jenis_kirim } = cart;
+  const  {data:isiCart, pricecode, sentTo:jenis_kirim, totalHarga, totalBv, totalWeight, totalItem } = cart;
   const [sentTo, setSentTo] = useState(true);
+  const [showRekapTrx, setShowRekapTrx] = useState(true);
 
   const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
 
@@ -45,6 +48,29 @@ const DeliveryOption = ({setStep}) => {
     setCart(sentToArr);
   }
 
+  useEffect(() => {
+    const getSavedAddrMemb = async () => {
+      const {userlogin} = login;
+      const { errCode, data, message} = await getListAddress(userlogin);
+      console.log({ errCode, data, message});
+      if(errCode === "000") {
+        /* console.log({data}); */
+        setCart({
+          ...cart, listAddrMemb: data
+        })
+      }  
+    } 
+    
+    getSavedAddrMemb();
+    
+    /* if(listAddrMemb.length === 0) {
+      getSavedAddrMemb();
+    }  */
+},[]);
+
+const { listAddrMemb } = cart;
+//console.log({listAddrMemb});
+
   let totalQty = 0;
   let totalSubProduk = 0;
   let subTotal = 0;  
@@ -57,6 +83,10 @@ const DeliveryOption = ({setStep}) => {
     padding: 0.2,
     marginLeft: 2
   };
+
+  const gridListPrd = {
+    height: "auto"
+  }
 
   return (
     <>
@@ -76,12 +106,14 @@ const DeliveryOption = ({setStep}) => {
                 </FormGroup>
               </FormControl>
             </ListItem> 
-            {jenis_kirim === "1" &&  (
+            {jenis_kirim === "1" && (
               <ListArea />
             )}
 
-            {jenis_kirim === "2" &&  (
-              <div>Div dikirim ke alamat</div>
+            {jenis_kirim === "2" && (
+              <ListAlamat 
+                listArrAddress={listAddrMemb}
+              />
             )}
           </List> 
           <ListItem key="pilKirim3">  
@@ -112,59 +144,115 @@ const DeliveryOption = ({setStep}) => {
       </Grid>
       <Grid item md={6} xs={12} sx={{p: 1}}>
         <Paper variant='outlined'>
-          <TitleForm title="List Produk" />
+          <TitleForm title="List Produk / Rekap Transaksi" />
           <List component="nav">
-          {isiCart && isiCart.map((item) => {
-              const {prdnm, qty, price_w, price_e, price_cw, price_ce, bv, img_url } = item;
-              totalQty += qty;
-              if(login !== null && pricecode == "12W4") {
-                subTotal = qty * price_w;
-              }
+            <ListItem key="pilKirim2">
+                <FormControl component="fieldset" variant="standard">
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Switch checked={showRekapTrx ? true : false} onChange={() => setShowRekapTrx(!showRekapTrx)} name="sentTo" />
+                      }
+                      label={showRekapTrx  == true ? "Rekap Transaksi" : "List Produk"}
+                    />
+                  </FormGroup>
+                </FormControl>
+              </ListItem>
+              {isiCart && showRekapTrx === false && isiCart.map((item) => {
+                const {prdnm, qty, price_w, price_e, price_cw, price_ce, bv, img_url } = item;
+                totalQty += qty;
+                if(login !== null && pricecode == "12W4") {
+                  subTotal = qty * price_w;
+                }
 
-              if(login !== null && pricecode == "12E4") {
-                subTotal = qty * price_e;
-              }
+                if(login !== null && pricecode == "12E4") {
+                  subTotal = qty * price_e;
+                }
 
-              if(login === null && pricecode == "12W4") {
-                subTotal = qty * price_cw;
-              }
+                if(login === null && pricecode == "12W4") {
+                  subTotal = qty * price_cw;
+                }
 
-              if(login === null && pricecode == "12E4") {
-                subTotal = qty * price_ce;
-              }
-              let subTotalBv = qty * bv;
-              totalSubProduk += subTotal;
-              totalBV += subTotalBv;
-              nowRecord++;
-              return ( 
-                <ListItem key={nowRecord} divider={nowRecord < jumRecord ? true : false}>
-                  <Grid item container xs={12} md={12} direction="row" sx={{padding: 1}}>
-                    
-                    <Grid item container xs={12} md={10}>
-                      <Grid item xs={12} md={12} sx={gridPrd}>
-                        <Typography variant="h6">
-                          {prdnm}
-                        </Typography>
+                if(login === null && pricecode == "12E4") {
+                  subTotal = qty * price_ce;
+                }
+                let subTotalBv = qty * bv;
+                totalSubProduk += subTotal;
+                totalBV += subTotalBv;
+                nowRecord++;
+                return ( 
+                  <ListItem key={nowRecord} divider={nowRecord < jumRecord ? true : false}>
+                    <Grid item container xs={12} md={12} direction="row" sx={{padding: 1}}>
+                      
+                      <Grid item container xs={12} md={10}>
+                        <Grid item xs={12} md={12} sx={gridPrd}>
+                          <Typography variant="h6">
+                            {prdnm}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={12} sx={gridPrd}>
+                          {/* <Typography variant="subtitle2">
+                            Sub Total Qty : {currency_format(qty)}
+                          </Typography> */}
+                          <Grid item container xs={12} md={12} direction="row" sx={gridListPrd}>
+                            <Grid item xs={8} md={8}>
+                              Sub Total Qty
+                            </Grid>
+                            <Grid item xs={1} md={1}>
+                              :
+                            </Grid>  
+                            <Grid item xs={3} md={3} sx={{textAlign: "right"}}>
+                              {currency_format(qty)}
+                            </Grid>
+                          </Grid>
+                        </Grid> 
+                        <Grid item xs={12} md={12} sx={gridPrd}>
+                          {/* <Typography variant="subtitle2">
+                            Sub Total BV : {currency_format(subTotalBv)}
+                          </Typography> */}
+                          <Grid item container xs={12} md={12} direction="row" sx={gridListPrd}>
+                            <Grid item xs={8} md={8}>
+                              Sub Total BV
+                            </Grid>
+                            <Grid item xs={1} md={1}>
+                              :
+                            </Grid>  
+                            <Grid item xs={3} md={3} sx={{textAlign: "right"}}>
+                              {currency_format(subTotalBv)}
+                            </Grid>
+                          </Grid>
+                        </Grid>  
+                        <Grid item xs={12} md={12} sx={gridPrd}>
+                          {/* <Typography variant="subtitle2">
+                            Sub Total Harga : Rp. {currency_format(subTotal)}
+                          </Typography> */}
+                          <Grid item container xs={12} md={12} direction="row" sx={gridListPrd}>
+                            <Grid item xs={8} md={8}>
+                              Sub Total Harga
+                            </Grid>
+                            <Grid item xs={1} md={1}>
+                              :
+                            </Grid>  
+                            <Grid item xs={3} md={3} sx={{textAlign: "right"}}>
+                              {currency_format(subTotal)}
+                            </Grid>
+                          </Grid>
+                        </Grid>  
                       </Grid>
-                      <Grid item xs={12} md={12} sx={gridPrd}>
-                        <Typography variant="subtitle2">
-                          Sub Total BV : Rp. {currency_format(subTotalBv)}
-                        </Typography>
-                      </Grid>  
-                      <Grid item xs={12} md={12} sx={gridPrd}>
-                        <Typography variant="subtitle2">
-                          Sub Total Harga : Rp. {currency_format(subTotal)}
-                        </Typography>
-                      </Grid>  
                     </Grid>
-                  </Grid>
-                </ListItem> 
-              );      
-            })}
-            {/* <RekapTransaksi 
-              totalHarga={totalSubProduk}
-              totalBV={totalBV}
-            /> */} 
+                  </ListItem> 
+                );      
+              })}
+
+              {showRekapTrx && (
+                <RekapTransaksi 
+                  totalHarga={totalHarga}
+                  totalBv={totalBv}
+                  totalItem={totalItem}
+                  totalWeight={totalWeight}
+                  header={false}
+                />  
+              )}
           </List> 
           {/* <PreviewCart 
             isiCart={isiCart}

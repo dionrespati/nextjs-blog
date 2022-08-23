@@ -71,4 +71,16 @@ const updateRekapTrans = (cart, login, pricecode) => {
   return newArrCart;
 }
 
-export {double, triple, currency_format, baseUrlApi, setJsonResponse, dateFormatName, updateRekapTrans};
+function capitalizeFirstLetter(string) {
+  //let newStr = string.toLowerCase();
+  //return newStr.charAt(0).toUpperCase() + string.slice(1);
+  return string;
+}
+
+function UppercaseFirst(mySentence) {
+  const convertLower = mySentence.toLowerCase();
+  const finalSentence = convertLower.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+  return finalSentence;
+}
+
+export {double, triple, currency_format, baseUrlApi, setJsonResponse, dateFormatName, updateRekapTrans, capitalizeFirstLetter, UppercaseFirst};
