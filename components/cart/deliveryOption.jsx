@@ -29,6 +29,8 @@ const DeliveryOption = ({setStep}) => {
   const [sentTo, setSentTo] = useState(true);
   const [showRekapTrx, setShowRekapTrx] = useState(true);
 
+  console.log({login});
+
   const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
 
   const backToCart = () => {
@@ -48,8 +50,8 @@ const DeliveryOption = ({setStep}) => {
     setCart(sentToArr);
   }
 
-  useEffect(() => {
-    const getSavedAddrMemb = async () => {
+  const getSavedAddrMemb = async () => {
+    if(login !== null) {
       const {userlogin} = login;
       const { errCode, data, message} = await getListAddress(userlogin);
       console.log({ errCode, data, message});
@@ -58,15 +60,19 @@ const DeliveryOption = ({setStep}) => {
         setCart({
           ...cart, listAddrMemb: data
         })
-      }  
+      } 
     } 
-    
+  } 
+
+  useEffect(() => {
+    console.log(`kepanggil listAlaamt..`);
     getSavedAddrMemb();
-    
-    /* if(listAddrMemb.length === 0) {
+  },[]);
+
+  /* useEffect(() => {
       getSavedAddrMemb();
-    }  */
-},[]);
+      console.log(`kepanggil disini..`);
+  },[login]); */
 
 const { listAddrMemb } = cart;
 //console.log({listAddrMemb});
@@ -93,7 +99,7 @@ const { listAddrMemb } = cart;
       <Grid item md={6} xs={12} sx={{p: 1}}>
         <Paper variant='outlined'>
           <TitleForm title="Pengiriman" />
-          <List component="nav" nested>
+          <List component="nav">
             <ListItem key="pilKirim2">
               <FormControl component="fieldset" variant="standard">
                 <FormGroup>
@@ -265,7 +271,7 @@ const { listAddrMemb } = cart;
   )
 }
 
-RekapTransaksi.propTypes = {
+DeliveryOption.propTypes = {
   setStep: func.isRequired,
 };
 

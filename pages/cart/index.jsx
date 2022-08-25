@@ -7,7 +7,6 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 
-import { useAppContext } from '../../context/app';
 import ListCart from '../../components/cart/listCartListItem';
 import DeliveryOption from '../../components/cart/deliveryOption';
 import PaymentOption from '../../components/cart/paymentOption';

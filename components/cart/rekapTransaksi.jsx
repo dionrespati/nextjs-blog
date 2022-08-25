@@ -11,7 +11,7 @@ import {
   number,
 } from 'prop-types';
 
-const RekapTransaksi = ({totalHarga, totalBv, totalItem, totalWeight, header}) => {
+const RekapTransaksi = ({totalHarga, totalBv, totalItem, totalWeight, header, ...param}) => {
   
   const subheadInfo = {
     variant: "subtitle1",

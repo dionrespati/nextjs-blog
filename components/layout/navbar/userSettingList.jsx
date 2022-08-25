@@ -22,6 +22,7 @@ const UserSettingList = ({tutup}) => {
 
   const logout = ({onClose}) => {
     localStorage.removeItem('login');
+    localStorage.removeItem('cart_content');
     setLogin(null);
   }
   return (
