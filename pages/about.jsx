@@ -3,7 +3,6 @@ import { useAppContext } from "../context/app";
 
 const about = () => {
   const {login, setLogin} = useAppContext();
-  console.log(useAppContext());
 
   const [count, setCount] = useState(0);
   const [data, setData] = useState({});

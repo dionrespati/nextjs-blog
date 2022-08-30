@@ -65,8 +65,6 @@ const ListArea = () => {
         namaStk: label,
         pilStk: id
       });
-    console.log({cart});
-    
       
   }
 

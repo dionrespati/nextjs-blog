@@ -15,6 +15,8 @@ import CartButtonSet from '../cart/cartButtonSet';
 import { currency_format } from '../../custom/contoh';
 
 const ProductList = memo(({ item, login }) => {
+
+  console.log(`Halaman product Item Component invoked..`);
   
   const { prdcd, prdnm, price_w, price_e, img_url, price_ce, price_cw } = item;
   const infoHargaA = login !== null ? `Rp ${currency_format(price_w)}` : `Rp ${currency_format(price_cw)}`;

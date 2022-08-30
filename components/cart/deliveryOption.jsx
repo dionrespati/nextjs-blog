@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   func
 } from 'prop-types';
@@ -19,7 +19,6 @@ import TitleForm from '../layout/titleForm';
 import { currency_format } from '../../custom/contoh';
 import Button from '@mui/material/Button';
 import RekapTransaksi from './rekapTransaksi';
-import getListAddress from '../../pages/api/member/listAddress';
 import ListAlamat from './listAlamat';
 
 
@@ -29,7 +28,6 @@ const DeliveryOption = ({setStep}) => {
   const [sentTo, setSentTo] = useState(true);
   const [showRekapTrx, setShowRekapTrx] = useState(true);
 
-  console.log({login});
 
   const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
 
@@ -50,32 +48,7 @@ const DeliveryOption = ({setStep}) => {
     setCart(sentToArr);
   }
 
-  const getSavedAddrMemb = async () => {
-    if(login !== null) {
-      const {userlogin} = login;
-      const { errCode, data, message} = await getListAddress(userlogin);
-      console.log({ errCode, data, message});
-      if(errCode === "000") {
-        /* console.log({data}); */
-        setCart({
-          ...cart, listAddrMemb: data
-        })
-      } 
-    } 
-  } 
-
-  useEffect(() => {
-    console.log(`kepanggil listAlaamt..`);
-    getSavedAddrMemb();
-  },[]);
-
-  /* useEffect(() => {
-      getSavedAddrMemb();
-      console.log(`kepanggil disini..`);
-  },[login]); */
-
-const { listAddrMemb } = cart;
-//console.log({listAddrMemb});
+  const { listAddrMemb } = cart;
 
   let totalQty = 0;
   let totalSubProduk = 0;
@@ -117,9 +90,7 @@ const { listAddrMemb } = cart;
             )}
 
             {jenis_kirim === "2" && (
-              <ListAlamat 
-                listArrAddress={listAddrMemb}
-              />
+              <ListAlamat />
             )}
           </List> 
           <ListItem key="pilKirim3">  

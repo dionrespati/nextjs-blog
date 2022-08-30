@@ -25,10 +25,6 @@ const TextInput = (props) => {
     setLength,
   } = props;
 
-  useEffect(() => {
-    console.log({setLength});
-  });
-
   return (
     
     <div className={cn('text-sm mb-2', { error: isError })}>

@@ -23,6 +23,8 @@ const ListCartListItem = ({setStep}) => {
 
   const { cart, login} = useAppContext();
 
+  console.log(`Halaman Cart List Item component invoked..`);
+
   const  {data:isiCart, pricecode, totalBv, totalHarga, totalItem, totalWeight } = cart;
   const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
 

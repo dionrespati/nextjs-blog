@@ -12,6 +12,8 @@ const index = () => {
   const {login, cart} = useAppContext();
   const [dataPrd, setDataPrd] = useState([]);
 
+  console.log(`Halaman product index invoked..`);
+
   useEffect(() => {
     axios.get(`https://www.k-net.co.id/tes_api_prd`)
       .then(res => {

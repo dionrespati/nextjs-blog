@@ -16,6 +16,8 @@ const steps = ['Keranjang Belanja', 'Pilih Metode Pengiriman', 'Pilih Pembayaran
 const index = () => {
   const [step, setStep] = useState(0);
 
+  console.log(`Halaman Cart index page invoked..`);
+
   return (
     <>
       <Box mt={12}
