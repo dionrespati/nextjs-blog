@@ -23,6 +23,8 @@ import ListAlamat from './listAlamat';
 
 
 const DeliveryOption = ({setStep}) => {
+  console.log(`komponen DeliveryOption rendered`);
+
   const { cart, login, setCart } = useAppContext();
   const  {data:isiCart, pricecode, sentTo:jenis_kirim, totalHarga, totalBv, totalWeight, totalItem } = cart;
   const [sentTo, setSentTo] = useState(true);
@@ -120,7 +122,7 @@ const DeliveryOption = ({setStep}) => {
         </Paper>   
       </Grid>
       <Grid item md={6} xs={12} sx={{p: 1}}>
-        <Paper variant='outlined'>
+        {/* <Paper variant='outlined'>
           <TitleForm title="List Produk / Rekap Transaksi" />
           <List component="nav">
             <ListItem key="pilKirim2">
@@ -168,9 +170,7 @@ const DeliveryOption = ({setStep}) => {
                           </Typography>
                         </Grid>
                         <Grid item xs={12} md={12} sx={gridPrd}>
-                          {/* <Typography variant="subtitle2">
-                            Sub Total Qty : {currency_format(qty)}
-                          </Typography> */}
+                          
                           <Grid item container xs={12} md={12} direction="row" sx={gridListPrd}>
                             <Grid item xs={8} md={8}>
                               Sub Total Qty
@@ -184,9 +184,7 @@ const DeliveryOption = ({setStep}) => {
                           </Grid>
                         </Grid> 
                         <Grid item xs={12} md={12} sx={gridPrd}>
-                          {/* <Typography variant="subtitle2">
-                            Sub Total BV : {currency_format(subTotalBv)}
-                          </Typography> */}
+                          
                           <Grid item container xs={12} md={12} direction="row" sx={gridListPrd}>
                             <Grid item xs={8} md={8}>
                               Sub Total BV
@@ -200,9 +198,7 @@ const DeliveryOption = ({setStep}) => {
                           </Grid>
                         </Grid>  
                         <Grid item xs={12} md={12} sx={gridPrd}>
-                          {/* <Typography variant="subtitle2">
-                            Sub Total Harga : Rp. {currency_format(subTotal)}
-                          </Typography> */}
+                          
                           <Grid item container xs={12} md={12} direction="row" sx={gridListPrd}>
                             <Grid item xs={8} md={8}>
                               Sub Total Harga
@@ -231,12 +227,8 @@ const DeliveryOption = ({setStep}) => {
                 />  
               )}
           </List> 
-          {/* <PreviewCart 
-            isiCart={isiCart}
-            login={login}
-            pricecode={pricecode}
-          /> */}
-        </Paper>
+          
+        </Paper> */}
       </Grid>
     </>
   )

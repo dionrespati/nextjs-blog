@@ -29,6 +29,8 @@ const PilihWarehouse = () => {
     data: isiDataCart, id_address, listWH, kodeWH, pricecode:kodeHargaWil, kodepos_lat:lat_addr, listStkReff, kodepos_long:long_addr, infoWH:infoPilihanWH
   } = cart;  
 
+  console.log(`component PilihWarehouse rendered`);
+
   const buttonStyle = {textTransform: 'capitalize', fontSize: '15px'};
 
   const [keySearchWH, setKeySearchWH] = useState("");
@@ -53,6 +55,8 @@ const PilihWarehouse = () => {
         kodepos_lat: lat_addr,
         kodepos_long: long_addr
       };
+
+      console.log(`function getStockist invoked`);
 
       const { errCode:kodeError, data:datax, message:pesanError } = await getStockist(paramSend);
       console.log({kodeError, datax, pesanError});

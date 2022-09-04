@@ -16,11 +16,7 @@ const PilihEkspedisi = () => {
   } = cart;
 
   
-  console.log({listKurir});
-
-  useEffect(() => {
-    console.log(`Component pilihEkspedisi invoked..`);
-  },[]);
+  console.log(`component PilihEkspedisi rendered`);
 
   const [pilCod, setPilCod] = useState(false);
 

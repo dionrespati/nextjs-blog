@@ -23,13 +23,17 @@ import AddIcon from '@mui/icons-material/Add';
 
 import getWarehouse from '../../pages/api/servis-kirim/getWarehouse';
 import getListAddress from '../../pages/api/member/listAddress';
+import { lightGreen } from '@mui/material/colors';
 
 
 const PilihAlamat = () => {
   const { cart, setCart, login} = useAppContext();
-  const { id_address, infoPilAlamat, listWH, listAddrMemb} = cart;  
+  const { id_address, infoPilAlamat, listWH, listAddrMemb} = cart; 
+  
+  console.log(`component PilihAlamat rendered`);
 
   const getSavedAddrMemb = async () => {
+    console.log(`function getSavedAddrMemb invoked`);
     const {userlogin} = login;
     const { errCode, data, message} = await getListAddress(userlogin);
     console.log({ errCode, data, message});
@@ -63,8 +67,8 @@ const PilihAlamat = () => {
   let filtered = [];
   const handlePilihAlamat = async (objParam) => {
     const { id_address, jenis_alamat, nama_penerima, kodepos_lat, kodepos_long } = objParam;
-    console.log({listWH});
-    if(listWH.length === 0) {
+    
+    //if(listWH.length === 0) {
       const paramSend = {
         id_address: id_address,
         id_member: login.userlogin,
@@ -74,6 +78,8 @@ const PilihAlamat = () => {
         kodepos_long: kodepos_long,
       };
 
+      console.log(`function getWarehouse invoked`);
+
       const { errCode:kodeError, data:datax, message:pesanError } = await getWarehouse(paramSend);
       if(kodeError !== "000") {
         alert(pesanError);
@@ -81,7 +87,8 @@ const PilihAlamat = () => {
       }
 
       setPilAlamat(true);
-      const filtered = datax.filter(listwh => listwh.type === "WAREHOUSE");
+      const filtered = datax.sort((a, b) => a.jarak - b.jarak).filter(listwh => listwh.type === "WAREHOUSE");
+      console.log({filtered});
       const jum = filtered.length;
       setCart({
         ...cart, 
@@ -93,7 +100,8 @@ const PilihAlamat = () => {
         kodepos_long: kodepos_long,
         infoPilAlamat: nama_penerima.toUpperCase()
        });
-    } else {
+    /* } else {
+      const newListWh = listWH.sort((a, b) => a.jarak - b.jarak).filter(listwh => listwh.type === "WAREHOUSE");
       setCart({
         ...cart, 
         infoPenerima: nama_penerima, 
@@ -101,9 +109,10 @@ const PilihAlamat = () => {
         jenis_alamat: jenis_alamat, 
         kodepos_lat: kodepos_lat, 
         kodepos_long: kodepos_long,
-        infoPilAlamat: nama_penerima.toUpperCase()
+        infoPilAlamat: nama_penerima.toUpperCase(),
+        listWH: newListWh
        }); 
-    }
+    } */
 
     
   };
@@ -130,10 +139,11 @@ const PilihAlamat = () => {
         <Paper variant="outlined" sx={{maxHeight: 200, overflow: 'auto'}}>
           <Card>
             {hasilPencarianAlamat && hasilPencarianAlamat.map((dtax) => {
-              const {id_address:id_address_cart, jenis_alamat, nama_penerima, telp, alamat, provinsi, kabupaten, kecamatan, kelurahan} = dtax;
+              const {id_address:id_address_cart, nama_penerima, telp, alamat, provinsi, kabupaten, kecamatan, kelurahan} = dtax;
               const nilaiMarginAlamat = alamat.length > 40 ? 2 : 0;
               const areax = `${provinsi} - ${kabupaten} - ${kecamatan} - ${kelurahan}`;
               const upperCaseArea = areax.toUpperCase();
+              
               return (
                 <>
                   <CardContent>

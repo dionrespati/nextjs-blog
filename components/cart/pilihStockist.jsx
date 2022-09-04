@@ -29,6 +29,8 @@ const PilihStockist = () => {
     jenis_alamat,kodeWH, kodeSTK, infoStk:infoPilihanStk, filteredStk, totalWeight, totalHarga 
   } = cart; 
 
+  console.log(`component PilihStockist rendered`);
+
   const buttonStyle = {textTransform: 'capitalize', fontSize: '15px'}; 
 
   const [keySearchStk, setKeySearchStk] = useState("");
@@ -52,6 +54,8 @@ const PilihStockist = () => {
       jenis_alamat: jenis_alamat,
       whcd: kodeWH
     };
+
+    console.log(`function getPriceListOngkir invoked`);
 
     const { errCode:kodeError, data:datax, message:pesanError } = await getPriceListOngkir(paramEkspedisi);
     console.log({kodeError, datax, pesanError});

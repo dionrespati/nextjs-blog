@@ -1,76 +1,103 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {useState} from 'react';
+import Axios from 'axios';
+import ProductList from '../components/product/productList';
 import { useAppContext } from "../context/app";
+import Box from '@mui/system/Box';
+import Grid from '@mui/material/Grid';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider
+} from 'react-query';
+import { ReactQueryDevtools }  from 'react-query/devtools';
 
-const about = () => {
-  const {login, setLogin} = useAppContext();
+const queryQlient = new QueryClient();
 
-  const [count, setCount] = useState(0);
-  const [data, setData] = useState({});
+const getListProduct = async () => {
+  return await Axios({
+    url:"https://www.k-net.co.id/tes_api_prd"
+  }).then((res) => {
+    const { data } = res;
+    return data;
 
-  useEffect(() => {
-    setCount(1);
-    console.log(`Did mount ${count}`);
-  },[]);
+  }).catch(function(error) {
+    console.log(error);
+    throw new Error(`Error when fetching..`);
+  });  
+}
 
-  useEffect(() => {
-    const newData = {
-      id: "1",
-      nama: "Dion Respati"
-    };
-    setData({
-      ...data,
-      newData
-    });
-    console.log(`Did mount data ${data}`);
-  },[]);
 
+const Todos = () => {
+  // Access the client
+  const queryClient = useQueryClient()
+  // Queries
+
+  const {login } = useAppContext();
+    const tes = "sd";
+
+  console.log(`Halaman product index invoked..`);
+  const {data, isLoading, isFetching, isError, isSuccess} = useQuery(
+    'product', 
+    getListProduct,
+    /* {
+      staleTime: 4000,
+      refetchInterval: 4000,
+    } */
+  );
+
+  console.log({data});
+
+  if(isLoading) {
+    return <div>Is loading..enteni sedelok</div>;
+  }
+
+  if(isFetching) {
+    return <div>Lagi njupuk data..SING SABAR..!!!</div>;
+  }
+
+  if(isError) {
+    return <div>Damput...error mas bro</div>;
+  }
+  
+  if(isSuccess) {
+    const {arrayData:dataPrd} = data;
+    return (
+      <Box mt={10}
+        sx={{
+          p: 1,
+        }}
+      >
+        <Grid container direction="row" columns={12}>
+          <Grid item md={12} xs={12} sx={{p: 1}}>
+            <Grid container spacing={1}>
+              {dataPrd && dataPrd.map((item) => {
+                const { prdcd } = item;
+                return (
+                  <ProductList 
+                    key={prdcd}
+                    item={item}
+                    login={login}
+                  />
+                );
+              })}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  }
+
+}
+
+const About = () => {
   return (
-    <>
-      <h1>I've rendered {count} times!</h1>
-      <form action="">
-        <fieldset>
-          <legend>Test Form</legend>
-          <div>Kota</div>
-          <div>
-            <input type="text" list="city-list" />
-            <datalist id="city-list">
-              <option value="Jakarta">Jakarta</option>
-              <option value="Bandung">Bandung</option>
-              <option value="Surabaya">Surabaya</option>
-              <option value="Magelang">Magelang</option>
-              <option value="Surakarta">Surakarta</option>
-              <option value="Magetan">Magetan</option>
-            </datalist>  
-          </div>
-          <div>kecamatan</div>
-          <div>
-            <input type="text" list="district-list" />
-            <datalist id="district-list">
-              <option value="Kebayoran Lama">Kebayoran Lama</option>
-              <option value="Pesangrahan">Pesangrahan</option>
-              <option value="Cipulir">Cipulir</option>
-              <option value="Cipadu">Cipadu</option>
-              <option value="Pecenongan">Pecenongan</option>
-              <option value="Kebayoran Baru">Kebayoran Baru</option>
-            </datalist>  
-          </div>
-          <div>Color</div>
-          <div>
-            <input type="color" name="color" />
-          </div>
-          <div>Progress</div>
-          <div>
-            <progress value="50" max="100">50%</progress>
-          </div>
-        </fieldset>
-      </form>
-      <h1>The details element</h1>
-      <details>
-        <summary>Epcot Center</summary>
-        <p>Epcot is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.</p>
-      </details>
-    </>
+    <QueryClientProvider client={queryQlient}>
+      <Todos />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   )
-};
+}
 
-export default about; 
+export default About;

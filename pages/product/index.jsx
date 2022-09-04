@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const index = () => {
 
-  const {login, cart} = useAppContext();
+  const {login } = useAppContext();
   const [dataPrd, setDataPrd] = useState([]);
 
   console.log(`Halaman product index invoked..`);
@@ -25,6 +25,8 @@ const index = () => {
       });
   },[]);
 
+  console.log({data});
+
   return (
       <Box mt={10}
         sx={{
@@ -32,13 +34,7 @@ const index = () => {
         }}
       >
         <Grid container direction="row" columns={12}>
-          {/* <Grid item md={2}>
-              <ProductSidebar />
-          </Grid> */}
           <Grid item md={12} xs={12} sx={{p: 1}}>
-            {/* <Grid container spacing={1}>
-               <SearchBar />
-            </Grid> */}  
             <Grid container spacing={1}>
               {dataPrd && dataPrd.map((item) => {
                 const { prdcd } = item;
@@ -47,9 +43,6 @@ const index = () => {
                     key={prdcd}
                     item={item}
                     login={login}
-                    /*cart={cart} 
-                    setCart={setCart}
-                    addToCart={addToCart}*/
                   />
                 );
               })}
