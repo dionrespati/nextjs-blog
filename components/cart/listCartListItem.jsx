@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  func, number
+  func,
 } from 'prop-types';
-import { currency_format } from '../../custom/contoh';
 
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -12,90 +11,81 @@ import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import TitleForm from '../layout/titleForm'; '../layout/titleForm';
+import { currencyFormat } from '../../custom/contoh';
+import TitleForm from '../layout/titleForm';
 
 import { useAppContext } from '../../context/app';
 import AddReduceButton from './addReduceButton';
 import MemberBV from './memberBV';
 import RekapTransaksi from './rekapTransaksi';
 
-const ListCartListItem = ({setStep}) => {
+function ListCartListItem({ setStep }) {
+  const { cart, login } = useAppContext();
 
-  const { cart, login} = useAppContext();
+  console.log('Halaman Cart List Item component invoked..');
 
-  console.log(`Halaman Cart List Item component invoked..`);
+  const {
+    data: isiCart, priceCode, totalBv, totalItem, totalWeight,
+  } = cart;
 
-  const  {data:isiCart, pricecode, totalBv, totalHarga, totalItem, totalWeight } = cart;
-  const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
+  const buttonStyle = { textTransform: 'capitalize', fontSize: '18px' };
 
-  let totalQty = 0;
   let totalSubProduk = 0;
-  let subTotal = 0;  
-  let totalBV = 0;
+  let subTotal = 0;
   const jumRecord = isiCart.length;
   let nowRecord = 0;
 
-
   const style = {
     height: 100,
-    width: 100
-  };
-  
-  const headerTitle = {
-    backgroundColor: "lightblue"
+    width: 100,
   };
 
-  const iconStyle = { 
-    marginRight: 0.5, 
-    height: "30px",
-    width: "30px"
-  };
-
-  const gridPrd = { 
-    height: "auto",
+  const gridPrd = {
+    height: 'auto',
     padding: 0.2,
-    marginLeft: 2
+    marginLeft: 2,
   };
 
   const nextStep = () => {
-    setStep(step => step + 1);
-  }
-  
+    setStep((step) => step + 1);
+  };
+
   return (
     <>
-      <Grid item md={6} xs={12} sx={{p: 1}}>
-        <Paper variant='outlined'>
+      <Grid item md={6} xs={12} sx={{ p: 1 }}>
+        <Paper variant="outlined">
           <TitleForm title="List Produk" />
-          <List component="nav">  
+          <List component="nav">
             {isiCart && isiCart.map((item) => {
-              const { prdcd, prdnm, qty, price_w, price_e, price_cw, price_ce, bv, img_url } = item;
-              totalQty += qty;
-              if(login !== null && pricecode == "12W4") {
-                subTotal = qty * price_w;
+              const {
+                prdnm, qty, priceWestDist, priceEastDist, priceWestCust, priceEastCust, bv,
+                imageUrl,
+              } = item;
+              if (login !== null && priceCode === '12W4') {
+                subTotal = qty * priceWestDist;
               }
 
-              if(login !== null && pricecode == "12E4") {
-                subTotal = qty * price_e;
+              if (login !== null && priceCode === '12E4') {
+                subTotal = qty * priceEastDist;
               }
 
-              if(login === null && pricecode == "12W4") {
-                subTotal = qty * price_cw;
+              if (login === null && priceCode === '12W4') {
+                subTotal = qty * priceWestCust;
               }
 
-              if(login === null && pricecode == "12E4") {
-                subTotal = qty * price_ce;
+              if (login === null && priceCode === '12E4') {
+                subTotal = qty * priceEastCust;
               }
-              let subTotalBv = qty * bv;
+              const subTotalBv = qty * bv;
               totalSubProduk += subTotal;
-              totalBV += subTotalBv;
-              nowRecord++;
-              return ( 
-                <ListItem key={nowRecord} divider={nowRecord < jumRecord ? true : false}>
-                  <Grid item container xs={12} md={12} direction="row" sx={{padding: 1}}>
-                    <Grid item xs={12} md={2} sx={{padding: 1}}>
+              nowRecord += 1;
+              return (
+                <ListItem key={nowRecord} divider={nowRecord < jumRecord}>
+                  <Grid item container xs={12} md={12} direction="row" sx={{ padding: 1 }}>
+                    <Grid item xs={12} md={2} sx={{ padding: 1 }}>
                       <CardMedia
                         component="img"
-                        image={img_url}
+                        image={imageUrl}
                         alt="Paella dish"
                         style={style}
                       />
@@ -108,24 +98,28 @@ const ListCartListItem = ({setStep}) => {
                       </Grid>
                       <Grid item xs={12} md={12} sx={gridPrd}>
                         <Typography variant="subtitle2">
-                          Sub Total BV : Rp. {currency_format(subTotalBv)}
+                          Sub Total BV : Rp.
+                          {' '}
+                          {currencyFormat(subTotalBv)}
                         </Typography>
-                      </Grid>  
+                      </Grid>
                       <Grid item xs={12} md={12} sx={gridPrd}>
                         <Typography variant="subtitle2">
-                          Sub Total Harga : Rp. {currency_format(subTotal)}
+                          Sub Total Harga : Rp.
+                          {' '}
+                          {currencyFormat(subTotal)}
                         </Typography>
-                      </Grid>  
+                      </Grid>
                       <Grid item xs={12} md={12} sx={gridPrd} alignItems="flex-end">
-                        <AddReduceButton 
+                        <AddReduceButton
                           item={item}
                           qty={qty}
                         />
                       </Grid>
                     </Grid>
                   </Grid>
-                </ListItem> 
-              );      
+                </ListItem>
+              );
             })}
             <ListItem>
               <Link href="/product">
@@ -141,26 +135,30 @@ const ListCartListItem = ({setStep}) => {
               </Link>
             </ListItem>
           </List>
-        </Paper>  
-      </Grid>  
-      <Grid item md={5} xs={12} sx={{p: 1}}>
-        <RekapTransaksi 
+        </Paper>
+      </Grid>
+      <Grid item md={5} xs={12} sx={{ p: 1 }}>
+        <RekapTransaksi
           totalHarga={totalSubProduk}
           totalBv={totalBv}
           totalItem={totalItem}
           totalWeight={totalWeight}
-          header={true}
-        /> 
-        <MemberBV 
+          header
+        />
+        <MemberBV
           nextStep={nextStep}
         />
       </Grid>
     </>
-  )
+  );
 }
 
 ListCartListItem.propTypes = {
   setStep: func,
+};
+
+ListCartListItem.defaultProps = {
+  setStep: () => {},
 };
 
 export default ListCartListItem;

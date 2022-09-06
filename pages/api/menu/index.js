@@ -1,64 +1,40 @@
 const handler = (req, res) => {
   res.status(200);
   res.json({
-    errorCode: '0', 
-    data:[
+    errorCode: '0',
+    data: [
       {
-        id: 1,       
+        id: 1,
         name: 'Home',
         path: '/',
         submenu: [],
       },
-     /*  {
-        id: 2,    
-        name: 'About',
-        path: '/about',
-        submenu: [],
-      }, */
       {
-        id: 3,    
+        id: 3,
         name: 'Product',
         path: '/product',
         submenu: [
           {
-            id: 31,        
+            id: 31,
             name: 'Beauty Care',
             path: '/product/1',
-            submenu: []
+            submenu: [],
           },
           {
-            id: 32,       
+            id: 32,
             name: 'Health Care',
             path: '/product/2',
-            submenu: []
+            submenu: [],
           },
           {
-            id: 33,        
+            id: 33,
             name: 'Fragance',
             path: '/product/3',
-            submenu: []
+            submenu: [],
           },
-        ]
+        ],
       },
-      /* {
-        id: 4,    
-        name: 'Login/Register',
-        path: '/login',
-        submenu: [],
-      },
-      {
-        id: 5,    
-        name: 'To Do',
-        path: '/todo',
-        submenu: [],
-      },
-      {
-        id: 6,    
-        name: 'Post',
-        path: '/posts',
-        submenu: [],
-      }, */
-    ]
+    ],
   });
 };
 export default handler;

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  number, shape, string, arrayOf
+  number, shape, string, arrayOf,
 } from 'prop-types';
 
 import Table from '@mui/material/Table';
@@ -9,103 +9,101 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { currency_format } from '../../custom/contoh';
+import { currencyFormat } from '../../custom/contoh';
 
-const PreviewCartTable = ({isiCart, pricecode, login}) => {
+function PreviewCartTable({ isiCart, priceCode, login }) {
   let totalQty = 0;
   let totalPrice = 0;
   let totalBv = 0;
-  let subTotalBv = 0;
-  let subTotalPrice = 0;
 
   return (
     <TableContainer>
-      <Table sx={{ minWidth: 700, maxWidth: "100%" }} aria-label="spanning table">
+      <Table sx={{ minWidth: 700, maxWidth: '100%' }} aria-label="spanning table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{width: 300}}>Nama Produk</TableCell>
+            <TableCell sx={{ width: 300 }}>Nama Produk</TableCell>
             <TableCell align="right">Qty.</TableCell>
           </TableRow>
-        </TableHead> 
+        </TableHead>
         <TableBody>
 
           {isiCart && isiCart.map((item) => {
-              const {prdcd, prdnm, qty, price_w, price_e, price_cw, price_ce, bv, } = item;
-              totalQty += qty;
-              totalBv += qty * bv;
-              subTotalBv = qty * bv;
-              
-              if(login !== null && pricecode == "12W4") {
-                totalPrice += qty * price_w;
-                subTotalPrice = qty * price_w;
-              }
+            const {
+              prdcd, prdnm, qty, priceWestDist, priceEastDist, priceWestCust, priceEastCust, bv,
+            } = item;
+            totalQty += qty;
+            totalBv += qty * bv;
 
-              if(login !== null && pricecode == "12E4") {
-                totalPrice += qty * price_e;
-                subTotalPrice = qty * price_e;
-              }
+            if (login !== null && priceCode === '12W4') {
+              totalPrice += qty * priceWestDist;
+            }
 
-              if(login === null && pricecode == "12W4") {
-                totalPrice += qty * price_cw;
-                subTotalPrice = qty * price_cw;
-              }
+            if (login !== null && priceCode === '12E4') {
+              totalPrice += qty * priceEastDist;
+            }
 
-              if(login === null && pricecode == "12E4") {
-                totalPrice += qty * price_ce;
-                subTotalPrice = qty * price_ce;
-              }
+            if (login === null && priceCode === '12W4') {
+              totalPrice += qty * priceWestCust;
+            }
 
-              return (
-                <TableRow key={prdcd}>
-                  <TableCell>{prdnm}</TableCell>
-                  <TableCell align="right">{currency_format(qty)}</TableCell>
-                </TableRow>
-              );
+            if (login === null && priceCode === '12E4') {
+              totalPrice += qty * priceEastCust;
+            }
+
+            return (
+              <TableRow key={prdcd}>
+                <TableCell>{prdnm}</TableCell>
+                <TableCell align="right">{currencyFormat(qty)}</TableCell>
+              </TableRow>
+            );
           })}
           <TableRow key="totalQty">
             <TableCell>Total Qty</TableCell>
-            <TableCell align="right">{currency_format(totalQty)}</TableCell>
+            <TableCell align="right">{currencyFormat(totalQty)}</TableCell>
           </TableRow>
           <TableRow key="totalBv">
             <TableCell>Total BV</TableCell>
-            <TableCell align="right">{currency_format(totalBv)}</TableCell>
-          </TableRow>  
+            <TableCell align="right">{currencyFormat(totalBv)}</TableCell>
+          </TableRow>
           <TableRow key="totalPrice">
             <TableCell>Total Harga</TableCell>
-            <TableCell align="right">Rp. {currency_format(totalPrice)}</TableCell>
+            <TableCell align="right">
+              Rp.
+              {currencyFormat(totalPrice)}
+            </TableCell>
           </TableRow>
-        </TableBody>  
+        </TableBody>
       </Table>
-    </TableContainer>  
+    </TableContainer>
   );
 }
 
-PreviewCartTables.defaultProps = {
-  login: null
+PreviewCartTable.defaultProps = {
+  login: null,
+  priceCode: '12W4',
+  isiCart: [],
 };
 
 PreviewCartTable.propTypes = {
   isiCart: arrayOf(
     shape({
-      prdcd: string.isRequired, 
-      prdnm: string.isRequired, 
-      qty: number.isRequired, 
-      price_w: number.isRequired, 
-      price_e: number.isRequired, 
-      price_cw: number.isRequired,
-      price_ce: number.isRequired,
-      bv: number.isRequired, 
-      img_url: string.isRequired,
-      weight: number.isRequired
+      prdcd: string.isRequired,
+      prdnm: string.isRequired,
+      qty: number.isRequired,
+      priceWestDist: number.isRequired,
+      priceEastDist: number.isRequired,
+      priceWestCust: number.isRequired,
+      priceEastCust: number.isRequired,
+      bv: number.isRequired,
+      imageUrl: string.isRequired,
+      weight: number.isRequired,
     }).isRequired,
   ),
-  pricecode: string, 
-  
+  priceCode: string,
   login: shape({
     userlogin: string,
-    loginname: string
-  }) 
+    loginname: string,
+  }),
 };
 
 export default PreviewCartTable;

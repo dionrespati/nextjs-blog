@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {currency_format} from '../custom/contoh';
+import {currencyFormat} from '../custom/contoh';
 import useCookies from '../custom/useCookies';
 
 
@@ -56,7 +56,7 @@ const dion = () => {
   });
   
   console.log("awal...");
-  const nilai = currency_format(5200000);
+  const nilai = currencyFormat(5200000);
 
   const hasilx = arrData.filter((dta) => dta.age < 40);
   return (

@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from '@mui/material/Link';
 
 import AppBar from '@mui/material/AppBar';
@@ -13,32 +12,31 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import Popover from '@mui/material/Popover';
 import Drawer from '@mui/material/Drawer';
+import PersonIcon from '@mui/icons-material/Person';
 import { useAppContext } from '../../../context/app';
 import UserSettingList from './userSettingList';
-import PersonIcon from '@mui/icons-material/Person';
 
 import PreviewCart from '../../cart/previewCart';
 
-
-const Navbar3 = () => {
+function Navbar3() {
   const { cart, login } = useAppContext();
-  const { data: isiCart, pricecode } = cart;
+  const { data: isiCart, priceCode } = cart;
 
   const [anchorPopCart, setAnchorPopCart] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(false);
-  
+
   const handleOpenPopCart = (event) => {
-    setAnchorPopCart(event.currentTarget)
-  }
+    setAnchorPopCart(event.currentTarget);
+  };
 
   const handleClosePopCart = () => {
-    setAnchorPopCart(null)
-  }
-  const handleOpenNavMenu = (e) => {
+    setAnchorPopCart(null);
+  };
+  const handleOpenNavMenu = () => {
 
-  }
+  };
 
-  const toggleDrawer = (event) => {
+  const toggleDrawer = () => {
     setAnchorElUser(!anchorElUser);
   };
 
@@ -47,7 +45,7 @@ const Navbar3 = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position='fixed' color='primary'>
+      <AppBar position="fixed" color="primary">
         <Toolbar>
           <IconButton
             size="large"
@@ -56,7 +54,7 @@ const Navbar3 = () => {
             aria-haspopup="true"
             onClick={handleOpenNavMenu}
             color="inherit"
-            sx={{display: { xs: 'flex', md: 'none' }}}
+            sx={{ display: { xs: 'flex', md: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
@@ -78,11 +76,9 @@ const Navbar3 = () => {
           >
             LoremAsum
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} />
           <Box sx={{ flexGrow: 0 }}>
-            <Badge badgeContent={totalItem} color="error" sx={{mr: 1}}>
+            <Badge badgeContent={totalItem} color="error" sx={{ mr: 1 }}>
               <Typography
                 aria-owns={open ? 'popCartOver' : undefined}
                 aria-haspopup="true"
@@ -90,10 +86,10 @@ const Navbar3 = () => {
                 onMouseLeave={handleClosePopCart}
               >
                 <Link href="/cart" color="inherit">
-                  <ShoppingCartIcon></ShoppingCartIcon>
+                  <ShoppingCartIcon />
                 </Link>
               </Typography>
-              
+
               <Popover
                 id="popCartOver"
                 sx={{
@@ -112,33 +108,33 @@ const Navbar3 = () => {
                 onClose={handleClosePopCart}
                 disableRestoreFocus
               >
-                <PreviewCart 
+                <PreviewCart
                   isiCart={isiCart}
-                  pricecode={pricecode}
+                  priceCode={priceCode}
                   login={login}
                 />
               </Popover>
-            </Badge>  
+            </Badge>
             <Tooltip title="Open settings">
               <IconButton onClick={toggleDrawer} sx={{ p: 0 }} color="inherit">
-               <PersonIcon></PersonIcon>
+                <PersonIcon />
               </IconButton>
             </Tooltip>
             <Drawer
-              anchor='right'
+              anchor="right"
               open={anchorElUser}
               onClose={toggleDrawer}
             >
-              <UserSettingList 
-                 tutup={toggleDrawer}
+              <UserSettingList
+                tutup={toggleDrawer}
               />
             </Drawer>
-            
+
           </Box>
         </Toolbar>
       </AppBar>
     </Box>
-  )
+  );
 }
 
 export default Navbar3;

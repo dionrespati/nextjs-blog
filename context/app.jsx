@@ -1,39 +1,40 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+  createContext, useContext, useState, useEffect,
+} from 'react';
 import { updateRekapTrans } from '../custom/contoh';
 
 const AppContext = createContext();
 
 const validLogin = null;
-let isiCart = {
+const isiCart = {
   data: [],
   totalItem: 0,
   totalHarga: 0,
   totalBv: 0,
   totalWeight: 0,
-  idmember: validLogin !== null ? validLogin.userlogin : "",
-  membername: validLogin !== null ? validLogin.loginname : "",
-  bnsperiod: "",
-  pricecode: "12W4",
-  sentTo: "1",
-  areaStk: "",
-  listStockist: "",
-  idstk: "",
-  namaStk: "",
-  pilStk: "",
-  isCod: "0",
-  id_address: "",
-  jenis_alamat: "",
-  nama_penerima: "", 
-  kodepos_lat: "", 
-  kodepos_long: "",
-  infoPilAlamat: "",
-  kodeWH: "", 
-  infoWH: "",
-  kodeSTK: "",
-  infoStk: "",
+  memberId: validLogin !== null ? validLogin.userlogin : '',
+  memberName: validLogin !== null ? validLogin.loginname : '',
+  bonusPeriod: '',
+  priceCode: '12W4',
+  sentTo: '1',
+  areaStockist: '',
+  stockistCode: '',
+  stockistName: '',
+  chooseStk: '',
+  isCod: '0',
+  addressCode: '',
+  addressType: '',
+  receiverName: '',
+  postcodeLatitute: '',
+  postcodeLongitude: '',
+  infoPilAlamat: '',
+  warehouseCode: '',
+  warehouseInfo: '',
+  stockistReffCode: '',
+  stockistReffInfo: '',
   listStockist: [],
-  listAddrMemb: [],
-  listWH: [],
+  listAddressMember: [],
+  listWarehouse: [],
   listStkReff: [],
   filteredStk: [],
   listKurir: [],
@@ -41,8 +42,7 @@ let isiCart = {
   listPayment: [],
 };
 
-export const AppWrapper = ({children}) => {
-  
+export function AppWrapper({ children }) {
   const [login, setLogin] = useState(validLogin);
   const [cart, setCart] = useState(isiCart);
   const [menu, setMenu] = useState([]);
@@ -50,44 +50,44 @@ export const AppWrapper = ({children}) => {
 
   const addToCart = (item) => {
     const { data } = cart;
-    const isExist = data.some(el => el.prdcd === item.prdcd);
-    if(isExist) return alert("Produk sudah ada dalam keranjang..");
+    const isExist = data.some((el) => el.prdcd === item.prdcd);
+    if (isExist) return alert('Produk sudah ada dalam keranjang..');
 
-    const newItem = {...item, qty: 1};
-    const newArrData = [ ...data, newItem ];
-    const { pricecode } = cart;
-    const newArr = updateRekapTrans(newArrData, login, pricecode);
-      setCart({ ...cart, 
-        data: newArrData,
-        totalItem: newArr.totalItem, 
-        totalHarga: newArr.totalHarga,
-        totalBv: newArr.totalBv,
-        totalWeight: newArr.totalWeight,
-      });
+    const newItem = { ...item, qty: 1 };
+    const newArrData = [...data, newItem];
+    const { priceCode } = cart;
+    const newArr = updateRekapTrans(newArrData, login, priceCode);
+    setCart({
+      ...cart,
+      data: newArrData,
+      totalItem: newArr.totalItem,
+      totalHarga: newArr.totalHarga,
+      totalBv: newArr.totalBv,
+      totalWeight: newArr.totalWeight,
+    });
 
     alert(`Produk ${item.prdnm} sudah dimasukkan ke dalam keranjang`);
   };
-  
-  useEffect(() => {    
-    const hasil = null;
+
+  useEffect(() => {
     fetch('http://localhost:3000/api/menu')
-     .then(response => response.json())
-     .then(responsedata => {
-       const {data, errorCode } = responsedata;
-       //console.log({responsedata});
-       if(errorCode === "0") {
-        setMenu(data);
-       }
-    });
+      .then((response) => response.json())
+      .then((responsedata) => {
+        const { data, errorCode } = responsedata;
+        // console.log({responsedata});
+        if (errorCode === '0') {
+          setMenu(data);
+        }
+      });
 
     let getLocalStorage = isiCart;
-    let getLoginData =  validLogin;
+    let getLoginData = validLogin;
 
     if (typeof window !== 'undefined') {
-      console.log("Tidak ada localstorage")
-      //getLocalStorage = JSON.parse();
+      console.log('Tidak ada localstorage');
+      // getLocalStorage = JSON.parse();
       getLocalStorage = JSON.parse(localStorage.getItem('cart_content'));
-     //console.log({getLocalStorage});
+      // console.log({getLocalStorage});
       setCart(getLocalStorage);
 
       getLoginData = JSON.parse(localStorage.getItem('login'));
@@ -95,16 +95,15 @@ export const AppWrapper = ({children}) => {
 
       setLogin(getLoginData);
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("cart_content", JSON.stringify(cart)); 
-  }, [cart])
+    window.localStorage.setItem('cart_content', JSON.stringify(cart));
+  }, [cart]);
 
   useEffect(() => {
-    window.localStorage.setItem("login", JSON.stringify(login));
+    window.localStorage.setItem('login', JSON.stringify(login));
   }, [login]);
-  
 
   return (
     <AppContext.Provider
@@ -113,17 +112,16 @@ export const AppWrapper = ({children}) => {
         setLogin,
         menu,
         setMenu,
-        lang, 
+        lang,
         setLang,
         cart,
         setCart,
-        addToCart
+        addToCart,
       }}
     >
       {children}
     </AppContext.Provider>
   );
-
 }
 
-export const useAppContext = () => useContext(AppContext);  
+export const useAppContext = () => useContext(AppContext);

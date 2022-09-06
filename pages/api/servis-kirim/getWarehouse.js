@@ -1,20 +1,19 @@
 import Axios from 'axios';
-import { baseUrlApi, setJsonResponse } from "../../../custom/contoh";
+import { baseUrlApi, setJsonResponse } from '../../../custom/contoh';
 
-const getWarehouse = async(param) => {
-  return await Axios({
+const getWarehouse = async (param) => {
+  const result = await Axios({
     url: `${baseUrlApi}/api/v2/getWarehouse`,
     method: 'POST',
-    data: param
+    data: param,
   }).then((res) => {
-    const {status, data} = res;
-    //console.log({status, data});
-    if(status === 200) {
-      return setJsonResponse(data);
-    } 
-  }).catch(function (error) {
-    console.log(`masuk catch error`, error);
+    const { status, data } = res;
+    // console.log({status, data});
+    if (status === 200) return setJsonResponse(data);
+    return null;
+  }).catch((error) => {
+    console.log('masuk catch error', error);
   });
-}
-
+  return result;
+};
 export default getWarehouse;

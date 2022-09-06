@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  number, shape, string, arrayOf
+  number, shape, string, arrayOf,
 } from 'prop-types';
 
 import List from '@mui/material/List';
@@ -9,91 +9,92 @@ import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
-import { currency_format } from '../../custom/contoh';
+import { currencyFormat } from '../../custom/contoh';
 
-const PreviewCart = ({isiCart, pricecode, login}) => {
-
+function PreviewCart({ isiCart, priceCode, login }) {
   let totalQty = 0;
   let totalPrice = 0;
-  let totalBv = 0;
 
   return (
-      <List
-        sx={{
-          width: '100%',
-          maxWidth: 600,
-          bgcolor: 'background.paper',
-        }}
-      >
-        {isiCart && isiCart.map((item) => {
-          const {prdcd, prdnm, qty, price_w, price_e, price_cw, price_ce, bv, img_url} = item;
-          const isiJumlah = `Jumlah : ${qty}`;
-          totalQty += qty;
-          totalBv += qty * bv;
-          
-          if(login !== null && pricecode == "12W4") {
-            totalPrice += qty * price_w;
-          }
+    <List
+      sx={{
+        width: '100%',
+        maxWidth: 600,
+        bgcolor: 'background.paper',
+      }}
+    >
+      {isiCart && isiCart.map((item) => {
+        const {
+          prdcd, prdnm, qty, priceWestDist, priceEastDist,
+          priceWestCust, priceEastCust, imageUrl,
+        } = item;
+        const isiJumlah = `Jumlah : ${qty}`;
+        totalQty += qty;
 
-          if(login !== null && pricecode == "12E4") {
-            totalPrice += qty * price_e;
-          }
+        if (login !== null && priceCode === '12W4') {
+          totalPrice += qty * priceWestDist;
+        }
 
-          if(login === null && pricecode == "12W4") {
-            totalPrice += qty * price_cw;
-          }
+        if (login !== null && priceCode === '12E4') {
+          totalPrice += qty * priceEastDist;
+        }
 
-          if(login === null && pricecode == "12E4") {
-            totalPrice += qty * price_ce;
-          }
-          return (           
-            <ListItem key={prdcd} divider>
-              <ListItemAvatar>
-                <Avatar 
-                  src={img_url} 
-                  variant="square"
-                />
-              </ListItemAvatar>
-              <ListItemText primary={prdnm} secondary={isiJumlah} />
-            </ListItem>
-          );      
-        })}
-        <ListItem key="total" >
-          <ListItemAvatar>
-            <ShoppingCartCheckoutIcon></ShoppingCartCheckoutIcon>
-          </ListItemAvatar>
-          <ListItemText primary={`Total Qty : ${totalQty}`} secondary={`Total Harga : Rp ${currency_format(totalPrice)}`} />
-        </ListItem>
-      </List>
+        if (login === null && priceCode === '12W4') {
+          totalPrice += qty * priceWestCust;
+        }
 
-  )
+        if (login === null && priceCode === '12E4') {
+          totalPrice += qty * priceEastCust;
+        }
+        return (
+          <ListItem key={prdcd} divider>
+            <ListItemAvatar>
+              <Avatar
+                src={imageUrl}
+                variant="square"
+              />
+            </ListItemAvatar>
+            <ListItemText primary={prdnm} secondary={isiJumlah} />
+          </ListItem>
+        );
+      })}
+      <ListItem key="total">
+        <ListItemAvatar>
+          <ShoppingCartCheckoutIcon />
+        </ListItemAvatar>
+        <ListItemText primary={`Total Qty : ${totalQty}`} secondary={`Total Harga : Rp ${currencyFormat(totalPrice)}`} />
+      </ListItem>
+    </List>
+
+  );
 }
 
 PreviewCart.defaultProps = {
-  login: null
+  login: null,
+  priceCode: '12W4',
+  isiCart: [],
 };
 
 PreviewCart.propTypes = {
   isiCart: arrayOf(
     shape({
-      prdcd: string.isRequired, 
-      prdnm: string.isRequired, 
-      qty: number.isRequired, 
-      price_w: number.isRequired, 
-      price_e: number.isRequired, 
-      price_cw: number.isRequired,
-      price_ce: number.isRequired,
-      bv: number.isRequired, 
-      img_url: string.isRequired,
-      weight: number.isRequired
+      prdcd: string.isRequired,
+      prdnm: string.isRequired,
+      qty: number.isRequired,
+      priceWestDist: number.isRequired,
+      priceEastDist: number.isRequired,
+      priceWestCust: number.isRequired,
+      priceEastCust: number.isRequired,
+      bv: number.isRequired,
+      imageUrl: string.isRequired,
+      weight: number.isRequired,
     }).isRequired,
   ),
-  pricecode: string, 
-  
+  priceCode: string,
   login: shape({
     userlogin: string,
-    loginname: string
-  }) 
+    loginname: string,
+  }),
 };
 
 export default PreviewCart;

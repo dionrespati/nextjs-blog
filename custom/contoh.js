@@ -1,61 +1,62 @@
+/* eslint-disable radix */
+/* eslint-disable no-plusplus */
 const double = (n) => n * 2;
 const triple = (n) => n * 3;
-const currency_format = (n) => parseInt(n).toLocaleString();
+const currencyFormat = (n) => parseInt(n).toLocaleString();
 const baseUrlApi = 'https://www.k-net.co.id';
 
 const setJsonResponse = (data) => {
-  const {response, arrayData, message } = data;
+  const { response, arrayData, message } = data;
   let result = {};
-  if(response === "true") {
+  if (response === 'true') {
     result = {
       ...result,
-      errCode: "000",
+      errCode: '000',
       data: arrayData,
-      message: message
-    }
+      message,
+    };
   } else {
     result = {
       ...result,
-      errCode: "001",
+      errCode: '001',
       data: null,
-      message: message
-    }
+      message,
+    };
   }
 
   return result;
-}
+};
 
 const dateFormatName = (param) => {
-   const arrayBulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-   const isi = param.split("-");
-   const thn = isi[0];
-   const bln = parseInt(isi[1]);
-   const blnNama = arrayBulan[bln];
-   return blnNama + " " + thn;
-}
+  const arrayBulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  const isi = param.split('-');
+  const thn = isi[0];
+  const bln = parseInt(isi[1]);
+  const blnNama = arrayBulan[bln];
+  return `${blnNama} ${thn}`;
+};
 
-const updateRekapTrans = (cart, login, pricecode) => {
+const updateRekapTrans = (cart, login, priceCode) => {
   let totbv = 0;
   let totweight = 0;
   let totharga = 0;
   let totitem = 0;
-  for(let i = 0; i < cart.length; i++) {
+  for (let i = 0; i < cart.length; i++) {
     totbv += cart[i].qty * cart[i].bv;
-
-    if(login !== null && pricecode == "12W4") {
-      totharga += cart[i].qty * cart[i].price_w;
+    if (login !== null && priceCode === '12W4') {
+      totharga += cart[i].qty * cart[i].priceWestDist;
     }
 
-    if(login !== null && pricecode == "12E4") {
-      totharga += cart[i].qty * cart[i].price_e;
+    if (login !== null && priceCode === '12E4') {
+      totharga += cart[i].qty * cart[i].priceEastDist;
     }
 
-    if(login === null && pricecode == "12W4") {
-      totharga += cart[i].qty * cart[i].price_cw;
+    if (login === null && priceCode === '12W4') {
+      totharga += cart[i].qty * cart[i].priceWestCust;
     }
 
-    if(login === null && pricecode == "12E4") {
-      totharga += cart[i].qty * cart[i].price_ce;
+    if (login === null && priceCode === '12E4') {
+      totharga += cart[i].qty * cart[i].priceEastCust;
     }
     totweight += cart[i].qty * cart[i].weight;
     totitem += cart[i].qty;
@@ -65,22 +66,25 @@ const updateRekapTrans = (cart, login, pricecode) => {
     totalItem: totitem,
     totalWeight: parseFloat(totweight.toFixed(2)),
     totalHarga: totharga,
-    totalBv: totbv
+    totalBv: totbv,
   };
 
   return newArrCart;
-}
+};
 
 function capitalizeFirstLetter(string) {
-  //let newStr = string.toLowerCase();
-  //return newStr.charAt(0).toUpperCase() + string.slice(1);
+  // let newStr = string.toLowerCase();
+  // return newStr.charAt(0).toUpperCase() + string.slice(1);
   return string;
 }
 
 function UppercaseFirst(mySentence) {
   const convertLower = mySentence.toLowerCase();
-  const finalSentence = convertLower.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+  const finalSentence = convertLower.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
   return finalSentence;
 }
 
-export {double, triple, currency_format, baseUrlApi, setJsonResponse, dateFormatName, updateRekapTrans, capitalizeFirstLetter, UppercaseFirst};
+export {
+  double, triple, currencyFormat, baseUrlApi, setJsonResponse,
+  dateFormatName, updateRekapTrans, capitalizeFirstLetter, UppercaseFirst,
+};

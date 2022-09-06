@@ -1,4 +1,8 @@
-import React,  {useEffect, useState} from 'react';
+/* eslint-disable radix */
+import React, { useEffect, useState } from 'react';
+import {
+  func,
+} from 'prop-types';
 
 import Tooltip from '@mui/material/Tooltip';
 import Radio from '@mui/material/Radio';
@@ -13,125 +17,122 @@ import ListItem from '@mui/material/ListItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Axios from 'axios';
 import TitleForm from '../layout/titleForm';
 
 import { useAppContext } from '../../context/app';
-import Axios from "axios";
 import { baseUrlApi, dateFormatName } from '../../custom/contoh';
 import getListBonusPeriod from '../../pages/api/bonusperiod';
 
-const MemberBV = ({nextStep}) => {
-
+function MemberBV({ nextStep }) {
   const { cart, setCart, login } = useAppContext();
-  const { idmember, membername, bnsperiod, } = cart;
-  
+  const { memberId, memberName, bonusPeriod } = cart;
+
   const [listBonusPeriod, setListBonusPeriod] = useState([]);
 
-  const buttonStyle = {textTransform: 'capitalize', fontSize: '18px'};
+  const buttonStyle = { textTransform: 'capitalize', fontSize: '18px' };
 
   useEffect(() => {
-      /* console.log(`isi useEffect listbns ${bnsperiod}`); */
-      let arrBns = [];
-      const getBns = async () => {
-        const { errCode, data, message} = await getListBonusPeriod();
-        console.log({ errCode, data, message});
-        if(errCode === "000") {
-          const { bnsperiod_prev, bnsperiod_now, date_only_now, endofdatebnsperiod} = data[0];
-          let endOfDate = parseInt(endofdatebnsperiod);
-          
-          if(date_only_now > endOfDate) {
-            //console.log({bnsperiod_now})
-            arrBns[0] = {value : bnsperiod_now, text : dateFormatName(bnsperiod_now)};
-          } else {
-            //console.log({bnsperiod_prev, bnsperiod_now})
-            arrBns[0] = {value : bnsperiod_prev, text : dateFormatName(bnsperiod_prev)};
-            arrBns[1] = {value : bnsperiod_now, text : dateFormatName(bnsperiod_now)};
-          }
-          setListBonusPeriod(arrBns);
-        }  
-      }  
-      
-      getBns();
-      /* const newCart = {
-        ...cart,
-        bnsperiod: arrBns
+    /* console.log(`isi useEffect listbns ${bonusPeriod}`); */
+    const arrBns = [];
+    const getBns = async () => {
+      const { errCode, data, message } = await getListBonusPeriod();
+      console.log({ errCode, data, message });
+      if (errCode === '000') {
+        const {
+          bonusPeriod_prev: previousBonusPeriod,
+          bonusPeriod_now: currentBonusPeriod,
+          date_only_now: dateOnlyNow,
+          endofdatebonusPeriod: endOfDateBonusPeriod,
+        } = data[0];
+        const endOfDate = parseInt(endOfDateBonusPeriod);
+
+        if (dateOnlyNow > endOfDate) {
+          // console.log({bonusPeriod_now})
+          arrBns[0] = { value: currentBonusPeriod, text: dateFormatName(currentBonusPeriod) };
+        } else {
+          // console.log({bonusPeriod_prev, currentBonusPeriod})
+          arrBns[0] = { value: previousBonusPeriod, text: dateFormatName(previousBonusPeriod) };
+          arrBns[1] = { value: currentBonusPeriod, text: dateFormatName(currentBonusPeriod) };
+        }
+        setListBonusPeriod(arrBns);
       }
-      setCart(newCart); */
-  },[]);
+    };
+
+    getBns();
+  }, []);
 
   const handleOnChange = (e) => {
     const nilai = e.target.value.toUpperCase();
-    setCart({ ...cart, [e.target.name]: nilai, });
+    setCart({ ...cart, [e.target.name]: nilai });
   };
 
   const findNamaMember = () => {
-    const nilai = idmember.toUpperCase();
-    //console.log({nilai});
+    const nilai = memberId.toUpperCase();
+    // console.log({nilai});
     Axios.get(`${baseUrlApi}/api/v2/getMemberById/${nilai}`)
-      .then(res => {
-        const {data, status} = res;
-        if(status === 200) {
-          const {response, arrayData} = data;
-          if(response === "true") {
+      .then((res) => {
+        const { data, status } = res;
+        if (status === 200) {
+          const { response, arrayData } = data;
+          if (response === 'true') {
             const { fullnm } = arrayData[0];
             const newData = {
               ...cart,
-              idmember: nilai,
-              membername: fullnm
-            }
+              memberId: nilai,
+              memberName: fullnm,
+            };
             setCart(newData);
-
-          } else {
-
           }
-        }  
-      }) 
-  }
+        }
+      });
+  };
 
   return (
     <Paper variant="outlined">
       <TitleForm title="Penerima BV" />
       <List component="nav">
         <ListItem key="fieldMember1">
-          <TextField 
+          <TextField
             size="medium"
-            name="idmember"
+            name="memberId"
             label="ID Member / Penerima BV"
-            sx={{mt: 2}}
+            sx={{ mt: 2 }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <Tooltip title="Klik Untuk cek ID Member" sx={{fontSize: "16px"}} arrow>
+                  <Tooltip title="Klik Untuk cek ID Member" sx={{ fontSize: '16px' }} arrow>
                     <Button
                       variant="contained"
                       color="success"
-                      sx={{textTransform: 'capitalize', fontSize: '16px'}}
+                      sx={{ textTransform: 'capitalize', fontSize: '16px' }}
                       onClick={findNamaMember}
-                    >Check</Button>
+                    >
+                      Check
+                    </Button>
                   </Tooltip>
                 </InputAdornment>
-              ) 
+              ),
             }}
-
             fullWidth
             required
             onChange={handleOnChange}
-            value={idmember === "" && login !== null ? login.userlogin : idmember}
+            value={memberId === '' && login !== null ? login.userlogin : memberId}
             helperText=""
           />
         </ListItem>
         <ListItem key="fieldMember2">
-          <TextField 
+          <TextField
             size="medium"
-            name="membername"
+            name="memberName"
             label="Nama Member"
             inputProps={
-              { readOnly: true, }
+              { readOnly: true }
             }
             fullWidth
             required
-            value={membername === "" && login !== null ? login.loginname : membername}
-          />  
+            value={memberName === '' && login !== null ? login.loginname : memberName}
+          />
         </ListItem>
         <ListItem key="fieldMember3">
           <FormControl>
@@ -139,23 +140,26 @@ const MemberBV = ({nextStep}) => {
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
-              name="bnsperiod"
+              name="bonusPeriod"
               margin="normal"
               size="small"
               onChange={handleOnChange}
             >
               {listBonusPeriod && listBonusPeriod.map((item) => {
-                const {value, text} = item;
-                return ( 
-                  <>
-                    <FormControlLabel value={value} control={<Radio />} label={text} checked={value === bnsperiod ? true : false} />
-                  </>
-                );      
+                const { value, text } = item;
+                return (
+                  <FormControlLabel
+                    value={value}
+                    control={<Radio />}
+                    label={text}
+                    checked={value === bonusPeriod}
+                  />
+                );
               })}
             </RadioGroup>
           </FormControl>
         </ListItem>
-        <ListItem key="fieldMember4">  
+        <ListItem key="fieldMember4">
           <Button
             size="large"
             variant="contained"
@@ -166,9 +170,17 @@ const MemberBV = ({nextStep}) => {
             Pilih Pengiriman
           </Button>
         </ListItem>
-      </List>      
+      </List>
     </Paper>
-  )
+  );
 }
+
+MemberBV.propTypes = {
+  nextStep: func,
+};
+
+MemberBV.defaultProps = {
+  nextStep: () => {},
+};
 
 export default MemberBV;

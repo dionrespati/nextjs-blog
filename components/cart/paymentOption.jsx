@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const PaymentOption = () => {
+function PaymentOption() {
   return (
     <div>PaymentOption</div>
-  )
+  );
 }
 
 export default PaymentOption;
