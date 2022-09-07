@@ -22,13 +22,15 @@ import { updateRekapTrans } from '../../custom/contoh';
 import { useAppContext } from '../../context/app';
 
 import getStockist from '../../pages/api/servis-kirim/getStockist';
+import getPriceListOngkir from '../../pages/api/servis-kirim/getPriceList';
 
 function PilihWarehouse() {
   const { cart, setCart, login } = useAppContext();
   const {
     data: isiDataCart, addressCode, listWarehouse, warehouseCode,
-    priceCode: kodeHargaWil, postcodeLatitute: addrLatitude, listStkReff,
+    postcodeLatitute: addrLatitude, listStkReff,
     postcodeLongitude: addrLongitude, warehouseInfo: infoPilihanWH,
+    totalWeight, totalHarga, addressType,
   } = cart;
 
   console.log('component PilihWarehouse rendered');
@@ -47,16 +49,19 @@ function PilihWarehouse() {
   hasilPencarianWH = listWarehouse.filter((item) => item.searchKey.includes(keySearchWH));
 
   const handlePilihWH = async (objParam, infoWarehouse) => {
-    const { officeCode, priceCode } = objParam;
+    const { officeCode, pricecode: priceCode } = objParam;
+
+    console.log({ objParam });
 
     if (listStkReff.length === 0) {
       const paramSend = {
-        addressCode,
-        postcodeLatitute: addrLatitude,
-        postcodeLongitude: addrLongitude,
+        id_address: addressCode,
+        kodepos_lat: addrLatitude,
+        kodepos_long: addrLongitude,
       };
 
       console.log('function getStockist invoked');
+      console.log({ paramSend });
 
       const {
         errCode: kodeError, data: datax, message: pesanError,
@@ -71,7 +76,7 @@ function PilihWarehouse() {
       setCart({ ...cart, listStkReff: datax });
     } else {
       let listFilteredStokis = listStkReff.sort((a, b) => a.jarak - b.jarak)
-        .filter((e) => e.priceCode === priceCode);
+        .filter((e) => e.pricecode === priceCode);
 
       const tempListFilteredStokis = listFilteredStokis;
       // console.log({listFilteredStokis, hasilPencarianStk});
@@ -86,36 +91,45 @@ function PilihWarehouse() {
 
       const newArr = updateRekapTrans(isiDataCart, login, priceCode);
       // setFilteredStk(listFilteredStokis);
-      if (kodeHargaWil !== priceCode) {
-        setCart({
-          ...cart,
-          totalItem: newArr.totalItem,
-          totalHarga: newArr.totalHarga,
-          totalBv: newArr.totalBv,
-          totalWeight: newArr.totalWeight,
-          priceCode,
-          warehouseCode: officeCode,
-          warehouseInfo: infoWarehouse,
-          stockistReffCode: tempStk,
-          stockistReffInfo: tempStkInfo,
-          filteredStk: tempListFilteredStokis,
-        });
-      } else {
-        setCart({
-          ...cart,
-          totalItem: newArr.totalItem,
-          totalHarga: newArr.totalHarga,
-          totalBv: newArr.totalBv,
-          totalWeight: newArr.totalWeight,
-          priceCode,
-          warehouseCode: officeCode,
-          warehouseInfo: infoWarehouse,
-          stockistReffCode: tempStk,
-          stockistReffInfo: tempStkInfo,
-          filteredStk: tempListFilteredStokis,
-        });
-      }
+      setCart({
+        ...cart,
+        totalItem: newArr.totalItem,
+        totalHarga: newArr.totalHarga,
+        totalBv: newArr.totalBv,
+        totalWeight: newArr.totalWeight,
+        priceCode,
+        warehouseCode: officeCode,
+        warehouseInfo: infoWarehouse,
+        stockistReffCode: tempStk,
+        stockistReffInfo: tempStkInfo,
+        filteredStk: tempListFilteredStokis,
+      });
     }
+
+    const paramEkspedisi = {
+      berat: totalWeight,
+      harga: totalHarga,
+      id_member: login.userlogin,
+      addressType,
+      whcd: warehouseCode,
+    };
+
+    console.log('function getPriceListOngkir invoked');
+
+    const {
+      errCode: kodeError, data: datax, message: pesanError,
+    } = await getPriceListOngkir(paramEkspedisi);
+
+    console.log({ kodeError, datax, pesanError });
+    if (kodeError !== '000') {
+      alert(pesanError);
+      return;
+    }
+
+    setCart({
+      ...cart,
+      listKurir: datax,
+    });
   };
 
   return (

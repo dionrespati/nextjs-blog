@@ -19,14 +19,13 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
 import { useAppContext } from '../../context/app';
 
-import getPriceListOngkir from '../../pages/api/servis-kirim/getPriceList';
+/* import getPriceListOngkir from '../../pages/api/servis-kirim/getPriceList'; */
 
 function PilihStockist() {
-  const { cart, setCart, login } = useAppContext();
+  const { cart, setCart } = useAppContext();
 
   const {
-    addressType, warehouseCode, stockistReffCode, stockistReffInfo: infoPilihanStk,
-    filteredStk, totalWeight, totalHarga,
+    stockistReffCode, stockistReffInfo: infoPilihanStk, filteredStk,
   } = cart;
 
   console.log('component PilihStockist rendered');
@@ -44,10 +43,11 @@ function PilihStockist() {
 
   hasilPencarianStk = filteredStk.filter((item) => item.searchKey.includes(keySearchStk));
 
-  const handlePilihStockist = async (objParam, infoStk) => {
-    const { officeCode } = objParam;
+  const handlePilihStockist = async (objParam) => {
+    const { officeCode, warehouse } = objParam;
+    const infoStk = `${officeCode} - ${warehouse}`;
 
-    const paramEkspedisi = {
+    /* const paramEkspedisi = {
       berat: totalWeight,
       harga: totalHarga,
       id_member: login.userlogin,
@@ -65,13 +65,12 @@ function PilihStockist() {
     if (kodeError !== '000') {
       alert(pesanError);
       return;
-    }
+    } */
 
     setCart({
       ...cart,
       stockistReffCode: officeCode,
       stockistReffInfo: infoStk,
-      listKurir: datax,
     });
   };
 
@@ -141,7 +140,7 @@ function PilihStockist() {
                       )}
 
                       {stockistReffCode !== kodeStk && (
-                      <Button startIcon={<CheckIcon />} size="small" color="success" variant="contained" sx={buttonStyle} onClick={() => handlePilihStockist(whx, infoStk)}>Pilih Stockist</Button>
+                      <Button startIcon={<CheckIcon />} size="small" color="success" variant="contained" sx={buttonStyle} onClick={() => handlePilihStockist(whx)}>Pilih Stockist</Button>
                       )}
                     </Stack>
                   </CardActions>

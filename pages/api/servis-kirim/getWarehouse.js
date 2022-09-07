@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { baseUrlApi, setJsonResponse } from '../../../custom/contoh';
+import { baseUrlApi, setJsonResponse, falseResponse } from '../../../custom/contoh';
 
 const getWarehouse = async (param) => {
   const result = await Axios({
@@ -10,9 +10,10 @@ const getWarehouse = async (param) => {
     const { status, data } = res;
     // console.log({status, data});
     if (status === 200) return setJsonResponse(data);
-    return null;
+    return setJsonResponse(falseResponse);
   }).catch((error) => {
     console.log('masuk catch error', error);
+    return setJsonResponse(falseResponse);
   });
   return result;
 };

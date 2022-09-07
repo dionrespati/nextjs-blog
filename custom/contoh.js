@@ -5,6 +5,12 @@ const triple = (n) => n * 3;
 const currencyFormat = (n) => parseInt(n).toLocaleString();
 const baseUrlApi = 'https://www.k-net.co.id';
 
+const falseResponse = {
+  response: 'false',
+  arrayData: null,
+  message: '',
+};
+
 const setJsonResponse = (data) => {
   const { response, arrayData, message } = data;
   let result = {};
@@ -27,9 +33,9 @@ const setJsonResponse = (data) => {
   return result;
 };
 
-const dateFormatName = (param) => {
+const dateFormatName = (parameter) => {
   const arrayBulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-  const isi = param.split('-');
+  const isi = parameter.split('-');
   const thn = isi[0];
   const bln = parseInt(isi[1]);
   const blnNama = arrayBulan[bln];
@@ -86,5 +92,6 @@ function UppercaseFirst(mySentence) {
 
 export {
   double, triple, currencyFormat, baseUrlApi, setJsonResponse,
-  dateFormatName, updateRekapTrans, capitalizeFirstLetter, UppercaseFirst,
+  dateFormatName, updateRekapTrans, capitalizeFirstLetter,
+  UppercaseFirst, falseResponse,
 };

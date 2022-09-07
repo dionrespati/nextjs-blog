@@ -11,6 +11,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
 import PersonIcon from '@mui/icons-material/Person';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -38,7 +39,7 @@ function PilihAlamat() {
     const { errCode, data, message } = await getListAddress(userlogin);
     console.log({ errCode, data, message });
     if (errCode === '000') {
-      /* console.log({data}); */
+      console.log({ data });
       setCart({
         ...cart, listAddressMember: data,
       });
@@ -66,20 +67,22 @@ function PilihAlamat() {
 
   const handlePilihAlamat = async (objParam) => {
     const {
-      addressCode: addrCodeVal, addressType, receiverName, postcodeLatitute, postcodeLongitude,
+      addressCode: addrCodeVal, jenis_alamat: addressType,
+      receiverName, postcodeLatitute, postcodeLongitude,
     } = objParam;
 
     // if(listWarehouse.length === 0) {
     const paramSend = {
-      addressCode: addrCodeVal,
+      id_address: addrCodeVal,
       id_member: login.userlogin,
-      addressType,
+      jenis_alamat: addressType,
       ispromo: 0,
-      postcodeLatitute,
-      postcodeLongitude,
+      kodepos_lat: postcodeLatitute,
+      kodepos_long: postcodeLongitude,
     };
 
     console.log('function getWarehouse invoked');
+    console.log({ paramSend });
 
     const { errCode: kodeError, data: datax, message: pesanError } = await getWarehouse(paramSend);
     if (kodeError !== '000') {
@@ -94,7 +97,7 @@ function PilihAlamat() {
       ...cart,
       infoPenerima: receiverName,
       listWarehouse: filtered,
-      addressCode,
+      addressCode: addrCodeVal,
       addressType,
       postcodeLatitute,
       postcodeLongitude,
@@ -123,7 +126,7 @@ function PilihAlamat() {
         )}
         <Paper variant="outlined" sx={{ maxHeight: 200, overflow: 'auto' }}>
           <Card>
-            {hasilPencarianAlamat && hasilPencarianAlamat.map((dtax) => {
+            {hasilPencarianAlamat?.map((dtax) => {
               const {
                 addressCode: addrCodeInCart, receiverName, telp,
                 alamat, provinsi, kabupaten, kecamatan, kelurahan,
@@ -191,6 +194,7 @@ function PilihAlamat() {
 
           </Card>
         </Paper>
+        <Divider />
       </Grid>
     </>
   );

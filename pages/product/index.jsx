@@ -21,7 +21,41 @@ const index = () => {
         const { response, arrayData } = res.data;
         console.log({ response, arrayData });
         if (response === 'true') {
-          setDataPrd(arrayData);
+          /* const newArrData = {
+            prdcd,
+            prdnm,
+            prdcdcat,
+            priceWestDist: price_w,
+            priceEastDist: price_e,
+            priceWestCust: price_cw,
+            priceEastCust: price_ce,
+            bv,
+            weight,
+            imageUrl: img_url
+          }; */
+          const newArr = [];
+          arrayData.forEach((dataprodukItem) => {
+            const {
+              prdcd, prdnm, prdcdcat, price_w: priceWestDist, price_e: priceEastDist,
+              price_cw: priceWestCust, price_ce: priceEastCust, bv, weight, img_url: imageUrl,
+            } = dataprodukItem;
+
+            const newArrObj = {
+              prdcd,
+              prdnm,
+              prdcdcat,
+              priceWestDist,
+              priceEastDist,
+              priceWestCust,
+              priceEastCust,
+              bv,
+              weight,
+              imageUrl,
+            };
+            newArr.push(newArrObj);
+          });
+
+          setDataPrd(newArr);
         }
       });
   }, []);

@@ -19,7 +19,7 @@ const ProductList = ({ item, login }) => {
   console.log('Halaman product Item Component invoked..');
 
   const {
-    prdcd, prdnm, priceWestDist, priceEastDist, imageUrl, priceEastCust, priceWestCust,
+    prdnm, priceWestDist, priceEastDist, imageUrl, priceEastCust, priceWestCust,
   } = item;
 
   const infoHargaA = login !== null ? `Rp ${currencyFormat(priceWestDist)}` : `Rp ${currencyFormat(priceWestCust)}`;
@@ -98,6 +98,10 @@ ProductList.propTypes = {
     prdnm: string,
     priceWestDist: number,
     imageUrl: string,
+  }).isRequired,
+  login: shape({
+    userlogin: string,
+    loginname: string,
   }).isRequired,
 };
 

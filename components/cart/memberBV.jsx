@@ -36,26 +36,25 @@ function MemberBV({ nextStep }) {
     /* console.log(`isi useEffect listbns ${bonusPeriod}`); */
     const arrBns = [];
     const getBns = async () => {
-      const { errCode, data, message } = await getListBonusPeriod();
-      console.log({ errCode, data, message });
+      const { errCode, data } = await getListBonusPeriod();
+      console.log({ errCode, data });
       if (errCode === '000') {
         const {
-          bonusPeriod_prev: previousBonusPeriod,
-          bonusPeriod_now: currentBonusPeriod,
+          bnsperiod_prev: previousBonusPeriod,
+          bnsperiod_now: currentBonusPeriod,
           date_only_now: dateOnlyNow,
-          endofdatebonusPeriod: endOfDateBonusPeriod,
+          endofdatebnsperiod: endOfDateBonusPeriod,
         } = data[0];
         const endOfDate = parseInt(endOfDateBonusPeriod);
 
         if (dateOnlyNow > endOfDate) {
-          // console.log({bonusPeriod_now})
           arrBns[0] = { value: currentBonusPeriod, text: dateFormatName(currentBonusPeriod) };
         } else {
-          // console.log({bonusPeriod_prev, currentBonusPeriod})
           arrBns[0] = { value: previousBonusPeriod, text: dateFormatName(previousBonusPeriod) };
           arrBns[1] = { value: currentBonusPeriod, text: dateFormatName(currentBonusPeriod) };
         }
         setListBonusPeriod(arrBns);
+        console.log({ arrBns });
       }
     };
 

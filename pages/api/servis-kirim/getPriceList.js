@@ -14,7 +14,7 @@ const getPriceList = async (param) => {
     whcd: param.whcd,
     loccd,
     id_member: param.id_member,
-    addressType: param.addressType,
+    jenis_alamat: param.addressType,
     berat: String(param.berat),
     harga_barang: String(param.harga),
     asuransi: '0',
