@@ -18,6 +18,7 @@ import { useAppContext } from '../../context/app';
 import AddReduceButton from './addReduceButton';
 import MemberBV from './memberBV';
 import RekapTransaksi from './rekapTransaksi';
+import MemberBV2 from './memberBV2';
 
 function ListCartListItem({ setStep }) {
   const { cart, login } = useAppContext();
@@ -143,11 +144,13 @@ function ListCartListItem({ setStep }) {
           totalBv={totalBv}
           totalItem={totalItem}
           totalWeight={totalWeight}
+          totalOngkir={0}
           header
         />
         <MemberBV
           nextStep={nextStep}
         />
+        <MemberBV2 />
       </Grid>
     </>
   );

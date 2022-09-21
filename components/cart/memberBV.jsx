@@ -1,5 +1,5 @@
 /* eslint-disable radix */
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   func,
 } from 'prop-types';
@@ -26,6 +26,7 @@ import getListBonusPeriod from '../../pages/api/bonusperiod';
 
 function MemberBV({ nextStep }) {
   const { cart, setCart, login } = useAppContext();
+  console.log('komponen memberBv rendered');
   const { memberId, memberName, bonusPeriod } = cart;
 
   const [listBonusPeriod, setListBonusPeriod] = useState([]);
@@ -182,4 +183,4 @@ MemberBV.defaultProps = {
   nextStep: () => {},
 };
 
-export default MemberBV;
+export default memo(MemberBV);

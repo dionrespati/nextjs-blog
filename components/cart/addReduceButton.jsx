@@ -19,6 +19,7 @@ import { updateRekapTrans } from '../../custom/contoh';
 import { useAppContext } from '../../context/app';
 
 const AddReduceButton = ({ item, qty }) => {
+  console.log('komponen AddReduceButton rendered');
   const { cart, setCart, login } = useAppContext();
   const { data: isiCart, priceCode } = cart;
 

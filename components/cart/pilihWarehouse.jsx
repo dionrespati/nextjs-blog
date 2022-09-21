@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 
 import Grid from '@mui/material/Grid';
@@ -53,7 +54,9 @@ function PilihWarehouse() {
 
     console.log({ objParam });
 
+    let newArrCart = {};
     if (listStkReff.length === 0) {
+      console.log('masuk if');
       const paramSend = {
         id_address: addressCode,
         kodepos_lat: addrLatitude,
@@ -73,8 +76,15 @@ function PilihWarehouse() {
         return;
       }
 
-      setCart({ ...cart, listStkReff: datax });
+      // setCart({ ...cart, listStkReff: datax });
+      newArrCart = {
+        ...cart,
+        listStkReff: datax,
+        warehouseCode: officeCode,
+        warehouseInfo: infoWarehouse,
+      };
     } else {
+      console.log('masuk else');
       let listFilteredStokis = listStkReff.sort((a, b) => a.jarak - b.jarak)
         .filter((e) => e.pricecode === priceCode);
 
@@ -91,7 +101,8 @@ function PilihWarehouse() {
 
       const newArr = updateRekapTrans(isiDataCart, login, priceCode);
       // setFilteredStk(listFilteredStokis);
-      setCart({
+
+      newArrCart = {
         ...cart,
         totalItem: newArr.totalItem,
         totalHarga: newArr.totalHarga,
@@ -103,7 +114,7 @@ function PilihWarehouse() {
         stockistReffCode: tempStk,
         stockistReffInfo: tempStkInfo,
         filteredStk: tempListFilteredStokis,
-      });
+      };
     }
 
     const paramEkspedisi = {
@@ -111,7 +122,7 @@ function PilihWarehouse() {
       harga: totalHarga,
       id_member: login.userlogin,
       addressType,
-      whcd: warehouseCode,
+      whcd: officeCode,
     };
 
     console.log('function getPriceListOngkir invoked');
@@ -123,13 +134,15 @@ function PilihWarehouse() {
     console.log({ kodeError, datax, pesanError });
     if (kodeError !== '000') {
       alert(pesanError);
-      return;
     }
 
-    setCart({
+    newArrCart = {
       ...cart,
       listKurir: datax,
-    });
+    };
+
+    console.log({ newArrCart });
+    setCart(newArrCart);
   };
 
   return (

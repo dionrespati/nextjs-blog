@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import {
   func,
@@ -18,7 +19,7 @@ import ListArea from './listArea';
 import TitleForm from '../layout/titleForm';
 import ListAlamat from './listAlamat';
 
-function DeliveryOption({ setStep }) {
+const DeliveryOption = ({ setStep }) => {
   console.log('komponen DeliveryOption rendered');
 
   const { cart, setCart } = useAppContext();
@@ -101,7 +102,7 @@ function DeliveryOption({ setStep }) {
       <Grid item md={6} xs={12} sx={{ p: 1 }} />
     </>
   );
-}
+};
 
 DeliveryOption.propTypes = {
   setStep: func.isRequired,

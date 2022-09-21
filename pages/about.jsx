@@ -19,6 +19,7 @@ const queryQlient = new QueryClient();
 const getListProduct = async () => {
   await Axios({ url: 'https://www.k-net.co.id/tes_api_prd' }).then((res) => {
     const { data } = res;
+    console.log({ data });
     return data;
   }).catch((error) => {
     console.log(error);

@@ -79,7 +79,7 @@ const getPriceList = async (param) => {
       }
     }
 
-    console.log({ listCod, listNonCod });
+    /* console.log({ listCod, listNonCod }); */
     const hasil = {
       errCode: '000',
       data: {

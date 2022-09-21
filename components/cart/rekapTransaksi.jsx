@@ -12,7 +12,7 @@ import { currencyFormat } from '../../custom/contoh';
 import TitleForm from '../layout/titleForm';
 
 const RekapTransaksi = ({
-  totalHarga, totalBv, totalItem, totalWeight, header,
+  totalHarga, totalBv, totalItem, totalWeight, header, totalOngkir,
 }) => {
   const subheadInfo = {
     variant: 'subtitle1',
@@ -50,8 +50,12 @@ const RekapTransaksi = ({
           <Typography {...subheadValue} align="right">{currencyFormat(totalItem)}</Typography>
         </ListItem>
         <ListItem key="totWeight">
-          <Typography {...subheadInfo}>Total Weight (Kg)</Typography>
+          <Typography {...subheadInfo}>Total Berat (Kg)</Typography>
           <Typography {...subheadValue} align="right">{totalWeight}</Typography>
+        </ListItem>
+        <ListItem key="totOngkir">
+          <Typography {...subheadInfo}>Biaya Kirim</Typography>
+          <Typography {...subheadValue} align="right">{totalOngkir}</Typography>
         </ListItem>
       </List>
     </Paper>
@@ -60,18 +64,20 @@ const RekapTransaksi = ({
 
 RekapTransaksi.defaultProps = {
   totalHarga: 0,
-  totalBV: 0,
+  totalBv: 0,
   totalItem: 0,
   totalWeight: 0,
   header: false,
+  totalOngkir: 0,
 };
 
 RekapTransaksi.propTypes = {
   totalHarga: number,
-  totalBV: number,
+  totalBv: number,
   totalItem: number,
   totalWeight: number,
   header: bool,
+  totalOngkir: number,
 };
 
 export default RekapTransaksi;

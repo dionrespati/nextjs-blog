@@ -12,6 +12,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { currencyFormat } from '../../custom/contoh';
 
 function PreviewCart({ isiCart, priceCode, login }) {
+  console.log('PreviewCart is rendered...');
   let totalQty = 0;
   let totalPrice = 0;
 

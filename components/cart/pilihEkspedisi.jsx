@@ -54,34 +54,7 @@ const PilihEkspedisi = () => {
       </Grid>
       <Grid item md={12} xs={12} sx={{ padding: 1 }}>
         <Paper variant="outlined" sx={{ maxHeight: 200, overflow: 'auto' }}>
-          <Card>
-            {isCod === '0' && listKurir.length > 0 && listKurir.listNonCod.map((kurir) => {
-              const {
-                courier, logo, is_cod: cod, code, service, fee,
-              } = kurir;
-              return (
-                <>
-                  <CardContent>
-                    <Grid item container xs={12} md={12} direction="row" sx={{ padding: 0, marginBottom: 0 }}>
-                      <Grid item md={2} xs={2} sx={{ padding: 0, height: '50px' }}>
-                        <img
-                          src={logo}
-                          alt=""
-                          width="50px"
-                          height="30px"
-                        />
-                      </Grid>
-                      <Grid item md={10} xs={10} sx={{ padding: 0, height: '30px' }}>
-                        <Typography variant="subtitle2">{`${service.toUpperCase()}`}</Typography>
-                        <Typography variant="subtitle2">{`Rp. ${fee}`}</Typography>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                  <Divider />
-                </>
-              );
-            })}
-          </Card>
+          <Card />
         </Paper>
       </Grid>
     </>
