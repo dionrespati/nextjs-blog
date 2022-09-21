@@ -14,6 +14,7 @@ import TitleForm from '../layout/titleForm';
 const RekapTransaksi = ({
   totalHarga, totalBv, totalItem, totalWeight, header, totalOngkir,
 }) => {
+  console.log('RekapTransaksi rendered');
   const subheadInfo = {
     variant: 'subtitle1',
     sx: {

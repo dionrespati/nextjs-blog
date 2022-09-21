@@ -18,7 +18,6 @@ import { useAppContext } from '../../context/app';
 import AddReduceButton from './addReduceButton';
 import MemberBV from './memberBV';
 import RekapTransaksi from './rekapTransaksi';
-import MemberBV2 from './memberBV2';
 
 function ListCartListItem({ setStep }) {
   const { cart, login } = useAppContext();
@@ -150,7 +149,7 @@ function ListCartListItem({ setStep }) {
         <MemberBV
           nextStep={nextStep}
         />
-        <MemberBV2 />
+        {/* <MemberBV2 /> */}
       </Grid>
     </>
   );
