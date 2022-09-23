@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable import/no-unresolved */
 import React from 'react';

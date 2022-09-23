@@ -1,24 +1,15 @@
+/* eslint-disable no-console */
+/* eslint-disable react/function-component-definition */
 import React, { memo } from 'react';
-import { useAppContext } from '../../context/app';
 
-function MemberBv2() {
-  const { login } = useAppContext();
+const MemberBv2 = () => {
   console.log('komponen MemberBV2 rendered..');
-
-  const gantiNama = (e) => {
-    const nilai = e.target.value;
-    /* setCart({
-      ...cart,
-      namaTes: nilai,
-    }); */
-  };
-
   return (
     <>
       <div>MemberBv2</div>
-      <input type="text" onChange={gantiNama} />
+      <input type="text" />
     </>
   );
-}
+};
 
 export default memo(MemberBv2);

@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 
@@ -52,7 +53,25 @@ function PilihWarehouse() {
   const handlePilihWH = async (objParam, infoWarehouse) => {
     const { officeCode, pricecode: priceCode } = objParam;
 
-    console.log({ objParam });
+    console.log({ officeCode, priceCode });
+
+    const paramEkspedisi = {
+      berat: totalWeight,
+      harga: totalHarga,
+      id_member: login.userlogin,
+      addressType,
+      whcd: officeCode,
+    };
+
+    console.log('function getPriceListOngkir invoked');
+    const {
+      errCode: kodeErrorOngkir, data: dataOngkir, message: pesanErrorOngkir,
+    } = await getPriceListOngkir(paramEkspedisi);
+
+    console.log({ kodeErrorOngkir, dataOngkir, pesanErrorOngkir });
+    if (kodeErrorOngkir !== '000') {
+      alert(pesanErrorOngkir);
+    }
 
     let newArrCart = {};
     if (listStkReff.length === 0) {
@@ -76,13 +95,14 @@ function PilihWarehouse() {
         return;
       }
 
-      // setCart({ ...cart, listStkReff: datax });
       newArrCart = {
         ...cart,
         listStkReff: datax,
         warehouseCode: officeCode,
         warehouseInfo: infoWarehouse,
+        listKurir: dataOngkir,
       };
+      setCart(newArrCart);
     } else {
       console.log('masuk else');
       let listFilteredStokis = listStkReff.sort((a, b) => a.jarak - b.jarak)
@@ -114,9 +134,13 @@ function PilihWarehouse() {
         stockistReffCode: tempStk,
         stockistReffInfo: tempStkInfo,
         filteredStk: tempListFilteredStokis,
+        listKurir: dataOngkir,
       };
+      console.log({ newArrCart });
+      setCart(newArrCart);
     }
 
+    /*
     const paramEkspedisi = {
       berat: totalWeight,
       harga: totalHarga,
@@ -138,11 +162,13 @@ function PilihWarehouse() {
 
     newArrCart = {
       ...cart,
+      ...newArrCart,
       listKurir: datax,
     };
 
     console.log({ newArrCart });
     setCart(newArrCart);
+    */
   };
 
   return (

@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';

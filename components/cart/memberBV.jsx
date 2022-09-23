@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable radix */
 import React, { memo, useEffect, useState } from 'react';
 import {
