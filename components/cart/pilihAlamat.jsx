@@ -56,7 +56,7 @@ function PilihAlamat() {
 
   const buttonStyle = { textTransform: 'capitalize', fontSize: '15px' };
 
-  const [, setPilAlamat] = useState([]);
+  const [pilAlamat, setPilAlamat] = useState([]);
   const [keySearchAddr, setKeySearchAddr] = useState('');
 
   let hasilPencarianAlamat = listAddressMember;

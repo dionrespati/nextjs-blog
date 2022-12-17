@@ -66,7 +66,7 @@ export function AppWrapper({ children }) {
       totalWeight: newArr.totalWeight,
     });
 
-    alert(`Produk ${item.prdnm} sudah dimasukkan ke dalam keranjang`);
+    return alert(`Produk ${item.prdnm} sudah dimasukkan ke dalam keranjang`);
   };
 
   useEffect(() => {

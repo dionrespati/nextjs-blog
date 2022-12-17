@@ -88,7 +88,7 @@ const ProductPreview = () => {
                   </Grid>
                   <Grid item xs={12} md={12} sx={gridPrd}>
                     <Typography variant="subtitle2">
-                      Sub Total BV : Rp.
+                      Sub Total BV :
                       {' '}
                       {currencyFormat(subTotalBv)}
                     </Typography>

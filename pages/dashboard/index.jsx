@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Textfield from '../../components/form/Textfield';
 
 const index = () => {
   const [dataLogin, setDataLogin] = useState({
-    username: '', 
+    username: '',
     password: '',
   });
 
@@ -17,13 +17,12 @@ const index = () => {
       ...dataLogin,
       [name]: value,
     });
-  }
-  
-  
+  };
+
   return (
     <div>
       <h3>Login User</h3>
-      <Textfield 
+      <Textfield
         label="Username"
         name="username"
         type="text"
@@ -31,7 +30,7 @@ const index = () => {
         onChange={handleOnChange}
         message="Username harus diisi"
       />
-      <Textfield 
+      <Textfield
         label="Password"
         name="password"
         type="password"

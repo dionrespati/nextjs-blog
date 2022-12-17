@@ -53,7 +53,7 @@ const ProductList = ({ item, login }) => {
           <Grid container spacing={0.05} sx={{ textAlign: 'center' }}>
             <Grid item xs={6}>
               <Typography variant="subtitle1" color="text.secondary">
-                Wilayah A
+                Wilayah AXXX
               </Typography>
               <Typography variant="subtitle1" color="text.secondary">
                 {infoHargaA}
